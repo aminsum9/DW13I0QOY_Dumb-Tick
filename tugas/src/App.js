@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import HomeHeader from "./component/Home-header";
 import Home from "./Home";
 import Login from "./component/login";
+import Category from "./component/category";
 import "./App.css";
 
 function App() {
@@ -15,6 +16,9 @@ function App() {
           </Route>
           <Route path="/Login">
             <Login />
+          </Route>
+          <Route path="/category">
+            <Category />
           </Route>
           <Route path="/">
             <Home />

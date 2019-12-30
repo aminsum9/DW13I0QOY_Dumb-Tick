@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const models = require("../models");
+const bcrypt = require("bcryptjs");
 const Users = models.users;
 
 //Login
@@ -27,91 +28,84 @@ exports.login = (req, res) => {
 };
 
 // //Register
-// exports.register = (req, res) => {
-//   let bodyName,
-//     bodyPhone,
-//     bodyEmail,
-//     bodyImage,
-//     bodyRole,
-//     bodyUsername,
-//     bodyPassword;
-//   const { name, phone, email, image, role, username, password } = req.body;
-
-//   bodyName = name.trim();
-//   bodyPhone = phone.trim();
-//   bodyEmail = email.trim();
-//   bodyImage = image.trim();
-//   bodyRole = role.trim();
-//   bodyUsername = username.trim();
-//   bodyPassword = password.trim();
-
-//   Users.findAll({ where: { email: bodyEmail } }).then(email => {
-//     if (email.length > 0) {
-//       res.status(200).json({
-//         message: "email has been used"
-//       });
-//     } else {
-//       Users.findAll({ where: { username: bodyUsername } })
-//         .then(username => {
-//           if (username.length > 0) {
-//             res.status(200).json({
-//               message: "username has been used"
-//             });
-//           } else {
-//             bcrypt.genSalt(10, (err, salr) => {
-//               if (err) {
-//                 res.status(400).json({
-//                   message: "bad request"
-//                 });
-//               } else {
-//                 bcrypt.hash(bodyPassword, salt, (err, hash) => {
-//                   if (err) {
-//                     res.status(400).json({
-//                       message: "server response error"
-//                     });
-//                   } else {
-//                     Users.create({
-//                       name: bodyName,
-//                       phone: bodyPhone,
-//                       email: bodyEmail,
-//                       image: bodyImage,
-//                       role: bodyRole,
-//                       username: bodyUsername,
-//                       password: bodyPassword
-//                     }).then(data => {
-//                       if (data) {
-//                         const token = jwt.sign({ id: data.id }, "amin");
-//                         res.status(200).json({
-//                           message: "success",
-//                           token
-//                         });
-//                       } else {
-//                         res.status(400).json({
-//                           message: "add user failed"
-//                         });
-//                       }
-//                     });
-//                   }
-//                 });
-//               }
-//             });
-//           }
-//         })
-//         .catch(error => {
-//           res.status(500).json({ error });
-//         });
-//     }
-//   });
-// };
 exports.register = (req, res) => {
-  Users.create(req.body).then(user => {
-    const tokenn = jwt.sign({ id: user.id }, "amin");
-    res.send({
-      message: "success register",
-      tokenn
-    });
+  let bodyName, bodyPhone, bodyEmail, bodyImage, bodyUsername, bodyPassword;
+  const { name, phone, email, image, role, username, password } = req.body;
+
+  bodyName = name.trim();
+  bodyPhone = phone.trim();
+  bodyEmail = email.trim();
+  bodyImage = image.trim();
+  bodyUsername = username.trim();
+  bodyPassword = password.trim();
+
+  Users.findAll({ where: { email: bodyEmail } }).then(email => {
+    if (email.length > 0) {
+      res.status(200).json({
+        message: "email has been used"
+      });
+    } else {
+      Users.findAll({ where: { username: bodyUsername } })
+        .then(username => {
+          if (username.length > 0) {
+            res.status(200).json({
+              message: "username has been used"
+            });
+          } else {
+            bcrypt.genSalt(10, (err, salt) => {
+              if (err) {
+                res.status(400).json({
+                  message: "bad request"
+                });
+              } else {
+                bcrypt.hash(bodyPassword, salt, (err, hash) => {
+                  if (err) {
+                    res.status(400).json({
+                      message: "server response error"
+                    });
+                  } else {
+                    Users.create({
+                      name: bodyName,
+                      phone: bodyPhone,
+                      email: bodyEmail,
+                      image: bodyImage,
+                      role: role,
+                      username: bodyUsername,
+                      password: bodyPassword
+                    }).then(data => {
+                      if (data) {
+                        const token = jwt.sign({ id: data.id }, "amin");
+                        res.status(200).json({
+                          message: "success",
+                          token
+                        });
+                      } else {
+                        res.status(400).json({
+                          message: "add user failed"
+                        });
+                      }
+                    });
+                  }
+                });
+              }
+            });
+          }
+        })
+        .catch(error => {
+          res.status(500).json({ error });
+        });
+    }
   });
 };
+
+// exports.register = (req, res) => {
+//   Users.create(req.body).then(user =>
+//     res.send({
+//       message: "success register",
+//       user
+//     })
+//   );
+// };
 
 //GET All Users
 exports.getAllUsers = (req, res) => {

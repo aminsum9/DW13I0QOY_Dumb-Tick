@@ -26,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
       as: "createdBy",
       sourceKey: "id"
     });
+    events.hasMany(models.orders, {
+      foreignKey: "event_id",
+      sourceKey: "id"
+    });
   };
   return events;
 };

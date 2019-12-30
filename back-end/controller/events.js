@@ -1,24 +1,27 @@
 const events = require("../models").events;
 const categories = require("../models").categories;
 const users = require("../models").users;
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
 
-exports.getAllEvents = (req, res) => {
-  events
-    .findAll({
-      attributes: { exclude: ["userId"] },
-      include: [
-        {
-          model: categories,
-          attributes: ["id", "name"]
-        },
-        {
-          model: users,
-          attributes: ["id", "name"]
-        }
-      ]
-    })
-    .then(data => res.send(data));
-};
+// exports.getAllEvents = (req, res) => {
+//   events
+//     .findAll({
+//       attributes: { exclude: ["userId"] },
+//       include: [
+//         {
+//           model: categories,
+//           attributes: ["id", "name"]
+//         },
+//         {
+//           model: users,
+//           as: "createdBy",
+//           attributes: ["id", "name"]
+//         }
+//       ]
+//     })
+//     .then(data => res.send(data));
+// };
 
 exports.addEvent = (req, res) => {
   events.create(req.body).then(data =>
@@ -34,10 +37,34 @@ exports.addEvent = (req, res) => {
 exports.getEventsByTitle = (req, res) => {
   events
     .findAll({
-      where: { title: req.query.title },
+      where: {
+        [Op.or]: [
+          {
+            title: {
+              [Op.like]: `%${req.query.title}%`
+            }
+          },
+          {
+            startTime: {
+              [Op.like]: `%${req.query.startTime}%`
+            }
+          }
+        ]
+      },
       attributes: {
-        exclude: ["userId"]
-      }
+        exclude: ["userId", "category_id", "user_id", "createdAt", "updatedAt"]
+      },
+      include: [
+        {
+          model: categories,
+          attributes: ["id", "name"]
+        },
+        {
+          model: users,
+          as: "createdBy",
+          attributes: ["id", "name", "phone", "email", "image"]
+        }
+      ]
     })
     .then(data => res.send(data));
 };
@@ -86,7 +113,20 @@ exports.getEventById = (req, res) => {
   events
     .findOne({
       where: { id: req.params.id },
-      attributes: { exclude: ["userId"] }
+      attributes: {
+        exclude: ["userId", "category_id", "user_id", "createdAt", "updatedAt"]
+      },
+      include: [
+        {
+          model: categories,
+          attributes: ["id", "name"]
+        },
+        {
+          model: users,
+          as: "createdBy",
+          attributes: ["id", "name", "phone", "email", "image"]
+        }
+      ]
     })
     .then(data => res.send(data));
 };

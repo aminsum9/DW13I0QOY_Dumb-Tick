@@ -11,28 +11,27 @@ const cors = require("cors");
 
 const express = require("express");
 
-const bodyParser = require("body-parser");
+// const bodyParser = require("body-parser");
 
 const app = express();
 
 app.use(cors());
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 const port = 5000;
 
 app.group("/api/eo", router => {
-  //Task 1
+  //Task 1 -- req.query still uncompleted
   // GET All Category
   router.get("/categories", controllerCategories.getAllCategory);
   //Add Categories
   router.post("/category", controllerCategories.addCategory);
   // GET events
-  router.get("/events", controllerEvents.getAllEvents);
-  //GET events by title
-  router.get("/event", controllerEvents.getEventsByTitle);
-  // GET event by start time
-  // router.get("/event", controllerEvents.getEventByStartTime);
+  // router.get("/events", controllerEvents.getAllEvents);
+  //GET events by title or startTime
+  router.get("/events", controllerEvents.getEventsByTitle);
+  //GET event by startTime tomorrow -- not created yet
 
   //Task 2
   //GET events by category
@@ -54,16 +53,23 @@ app.group("/api/eo", router => {
   //Task 6
   //GET Events by id
   router.get("/event/:id", controllerEvents.getEventById);
+  //POST Order --error
+  router.post("/event/:id/order", controllerOrder.addOrder);
 
   //Task 7
   //GET Detail Profile
   router.get("/profile/:id", authenticated, controllerAuth.getProfile);
+  //GET Favourite by user_id --not created yet
 
   //Task 8
   //Update PAYMENT
   router.put("/order/:id", controllerOrder.updatePaymentStatus);
   //GET All Orders
   router.get("/orders", controllerOrder.getAllOrder);
+
+  // Task 9
+  //GET Order where status = confirmed
+  router.get("/order?", controllerOrder.getOrderConfirmed);
 
   //Task 10
   router.post("/event", controllerEvents.addEvent);

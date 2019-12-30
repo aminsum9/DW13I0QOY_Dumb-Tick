@@ -7,17 +7,18 @@ const initialState = {
 };
 
 export const categories = (state = initialState, action) => {
-  switch (action) {
+  switch (action.type) {
     case `${GET_CATEGORIES}_PENDING`:
       return {
         ...state,
         isLoading: true
       };
-    case `${GET_CATEGORIES}_FULLFILED`:
+    case `${GET_CATEGORIES}_FULFILLED`:
       console.log(action.payload);
       return {
         ...state,
-        data: action.payload.data
+        data: action.payload.data,
+        isLoading: false
       };
     case `${GET_CATEGORIES}_REJECTED`:
       return {};

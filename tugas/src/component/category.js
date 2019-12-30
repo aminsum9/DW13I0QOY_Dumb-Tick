@@ -1,19 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getCategories, getCategoriesPending } from "../_actions/categories";
-import axios from "axios";
+import { getCategories } from "../_actions/categories";
 
-class category extends Component {
+class Category extends Component {
   componentDidMount() {
-    this.props.dispatch(getCategoriesPending()); //Fire ACT Pending
-    axios.get("http://localhost:5000/api/eo/categories").then(res => {
-      this.props.dispatch(getCategories(res.data)); //Fire ACT FULLFILED
-    });
+    this.props.getCategories(); //Fire ACT Pending
   }
 
   render() {
     const { data, isLoading, error } = this.props.categories;
-    console.log(this.props.categories);
+
+    console.log(data);
 
     if (error) {
       return (
@@ -47,4 +44,12 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(category);
+const mapDispatchToProps = dispatch => {
+  return {
+    getCategories: () => {
+      dispatch(getCategories());
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Category);
