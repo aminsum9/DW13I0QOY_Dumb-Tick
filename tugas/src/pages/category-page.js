@@ -1,24 +1,24 @@
 import React, { Component } from "react";
-import "./Component.css";
+import "./Pages.css";
+import { withRouter, Link } from "react-router-dom";
+// Import Component
+import HomeHeader from "../component/Home-header";
+// Import redux
 import { connect } from "react-redux";
-import { getCategories } from "../_actions/categories";
-import { getEvents } from "../_actions/events";
-import { Link } from "react-router-dom";
-//material-ui event
-import FavoriteIcon from "@material-ui/icons/Favorite";
+import { getCategory } from "../_actions/category.js";
+//Import material-ui
+import Grid from "@material-ui/core/Grid";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import Grid from "@material-ui/core/Grid";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
-class Category extends Component {
+class CategoryPage extends Component {
   componentDidMount() {
-    this.props.getCategories(); //Fire ACT Pending
-    this.props.getEvents();
+    this.props.getCategory(this.props.category_id);
   }
 
   render() {
-    const { data, isLoading, error } = this.props.categories;
-    const { events } = this.props.events;
+    const { data, isLoading, error } = this.props.category;
     if (error) {
       return (
         <div>
@@ -37,48 +37,11 @@ class Category extends Component {
 
     return (
       <div>
+        <HomeHeader />
         <Grid container style={{ flexGrow: "1" }} className="today-events">
           <Grid item xs={12}>
             <Grid container justify="center">
               {data.map((entry, index) => {
-                return (
-                  <Grid key={index} item style={{ margin: "10px" }}>
-                    <Link
-                      to={"/category/" + entry.id + "/events"}
-                      style={{
-                        textDecoration: "none",
-                        color: "#000"
-                      }}
-                    >
-                      <CardContent
-                        style={{
-                          textAlign: "center",
-                          borderRadius: "20px",
-                          backgroundColor: "rgb(218, 96, 96)",
-                          boxShadow: "2px 1px 4px grey",
-                          fontSize: "20px",
-                          fontFamily: "verdana",
-                          color: "#fff",
-                          textTransform: "uppercase",
-                          paddingLeft: "30px",
-                          paddingRight: "30px",
-                          height: "20px"
-                        }}
-                      >
-                        {entry.name}
-                      </CardContent>
-                    </Link>
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </Grid>
-        </Grid>
-        {/* </div> */}
-        <Grid container style={{ flexGrow: "1" }} className="today-events">
-          <Grid item xs={12}>
-            <Grid container justify="center">
-              {events.map((entry, index) => {
                 return (
                   <Grid key={index} item style={{ margin: "10px" }}>
                     <CardContent
@@ -125,22 +88,21 @@ class Category extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    categories: state.categories,
-    events: state.events
+    category_id: ownProps.match.params.category_id,
+    category: state.category
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getCategories: () => {
-      dispatch(getCategories());
-    },
-    getEvents: () => {
-      dispatch(getEvents());
+    getCategory: category_id => {
+      dispatch(getCategory(category_id));
     }
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Category);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(CategoryPage)
+);

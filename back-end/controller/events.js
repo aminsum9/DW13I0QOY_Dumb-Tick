@@ -4,24 +4,26 @@ const users = require("../models").users;
 const sequelize = require("sequelize");
 const Op = sequelize.Op;
 
-// exports.getAllEvents = (req, res) => {
-//   events
-//     .findAll({
-//       attributes: { exclude: ["userId"] },
-//       include: [
-//         {
-//           model: categories,
-//           attributes: ["id", "name"]
-//         },
-//         {
-//           model: users,
-//           as: "createdBy",
-//           attributes: ["id", "name"]
-//         }
-//       ]
-//     })
-//     .then(data => res.send(data));
-// };
+exports.getAllEvents = (req, res) => {
+  events
+    .findAll({
+      attributes: {
+        exclude: ["userId", "category_id", "user_id", "createdAt", "updatedAt"]
+      },
+      include: [
+        {
+          model: categories,
+          attributes: ["id", "name"]
+        },
+        {
+          model: users,
+          as: "createdBy",
+          attributes: ["id", "name"]
+        }
+      ]
+    })
+    .then(data => res.send(data));
+};
 
 exports.addEvent = (req, res) => {
   events.create(req.body).then(data =>

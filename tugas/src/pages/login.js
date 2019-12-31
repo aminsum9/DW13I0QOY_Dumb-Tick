@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { login } from "../config/api";
+import "./Pages.css";
 
 class Login extends Component {
   // For Login
@@ -45,10 +46,12 @@ class Login extends Component {
             <input
               type="text"
               placeholder="email"
-              id="username"
+              name="email"
+              id="email"
               onChange={this.onChange}
             ></input>
             <input
+              name="password"
               type="password"
               placeholder="password"
               id="password"

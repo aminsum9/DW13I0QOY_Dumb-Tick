@@ -28,7 +28,7 @@ app.group("/api/eo", router => {
   //Add Categories
   router.post("/category", controllerCategories.addCategory);
   // GET events
-  // router.get("/events", controllerEvents.getAllEvents);
+  router.get("/allevents", controllerEvents.getAllEvents);
   //GET events by title or startTime
   router.get("/events", controllerEvents.getEventsByTitle);
   //GET event by startTime tomorrow -- not created yet
