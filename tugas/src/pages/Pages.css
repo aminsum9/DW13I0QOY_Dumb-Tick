@@ -62,7 +62,7 @@ body {
   position: relative;
 }
 .content {
-  width: 90%;
+  width: 85%;
   padding: 50px;
   margin: 50px;
 }
@@ -155,6 +155,19 @@ footer {
   position: relative;
   left: 90%;
 }
+.event-detail-detail {
+  font-size: 20px;
+  font-family: comic sans ms;
+  margin: auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-left: 40px;
+}
+.event-detail-bottom {
+  width: 1000px;
+  margin: auto;
+  margin-bottom: 100px;
+}
 /* Add Event */
 .addevent {
   background: #e6494c;
@@ -166,6 +179,11 @@ footer {
 .addevent form {
   display: flex;
   flex-direction: column;
+}
+#addevent-title {
+  margin: auto;
+  margin-bottom: 30px;
+  color: #fff;
 }
 .addevent form input,
 select {
@@ -182,4 +200,43 @@ select {
   color: #000;
   outline: none;
   border: none;
+}
+.addevent form button {
+  width: 100px;
+  height: 50px;
+  margin: auto;
+  border: none;
+  background: grey;
+  color: #fff;
+  font-size: 20px;
+}
+
+/* Payment */
+#payment-title {
+  color: #e6494c;
+}
+#payment-container {
+  width: 100%;
+  background: #e6494c;
+  padding-top: 20px;
+  padding-bottom: 0px;
+}
+.payment-item {
+  width: 80%;
+  margin: auto;
+  height: 500px;
+  background: #fff;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+.payment-order {
+  width: 80%;
+  height: 300px;
+  margin: auto;
+  border: 10px solid #e6494c;
+}
+.payment-order-name {
+  width: 100%;
+  height: 100px;
+  background: lightgrey;
 }

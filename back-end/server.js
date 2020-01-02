@@ -29,7 +29,7 @@ app.group("/api/eo", router => {
   router.post("/category", controllerCategories.addCategory);
   // GET events
   router.get("/allevents", controllerEvents.getAllEvents);
-  //GET events by title or startTime
+  //GET events by title and time
   router.get("/events", controllerEvents.getEventsByTitle);
   //GET event by startTime tomorrow -- not created yet
 
@@ -69,10 +69,10 @@ app.group("/api/eo", router => {
 
   // Task 9
   //GET Order where status = confirmed
-  router.get("/order?", controllerOrder.getOrderConfirmed);
+  router.get("/order?", authenticated, controllerOrder.getOrderConfirmed);
 
   //Task 10
-  router.post("/event", controllerEvents.addEvent);
+  router.post("/event", authenticated, controllerEvents.addEvent);
 });
 
 app.listen(port, () => console.log(`listening to port ${port}!`));

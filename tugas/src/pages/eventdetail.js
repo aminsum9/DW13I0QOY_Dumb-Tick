@@ -49,7 +49,7 @@ class EventDetail extends Component {
               width: "1000px",
               margin: "auto",
               marginTop: "50px",
-              marginBottom: "200px"
+              marginBottom: "10px"
             }}
           >
             <img
@@ -99,7 +99,7 @@ class EventDetail extends Component {
                   paddingLeft: "20px"
                 }}
               >
-                <h1>Hosted By</h1>
+                <h1 className="event-detail-detail">Hosted By</h1>
                 <div
                   style={{
                     width: "100%",
@@ -122,19 +122,76 @@ class EventDetail extends Component {
                   height: "100%"
                 }}
               >
-                <h1>Date & Time</h1>
+                <h1 className="event-detail-detail">Date & Time</h1>
                 <p>
                   {data.startTime} - {data.endTime}
                 </p>
               </div>
               <div style={{ width: "33%", height: "100%" }}>
-                <h1>Contact Person</h1>
+                <h1 className="event-detail-detail">Contact Person</h1>
                 <p>{data.createdBy ? data.createdBy.name : ""}</p>
                 <p>{data.createdBy ? data.createdBy.phone : ""}</p>
                 <p>{data.createdBy ? data.createdBy.email : ""}</p>
               </div>
             </div>
           </Card>
+          {/* -------------- */}
+          <Grid
+            container
+            style={{ flexGrow: "1" }}
+            className=" event-detail-bottom"
+          >
+            <Grid item xs={12}>
+              <Grid container justify="center">
+                <Grid
+                  item
+                  style={{
+                    marginTop: "10px",
+                    minWidth: "500px",
+                    borderRadius: "10px",
+                    borderRight: "1px solid grey"
+                  }}
+                >
+                  <CardContent
+                    style={{
+                      // textAlign: "center",
+                      backgroundColor: "#fff",
+                      boxShadow: "2px 1px 4px grey",
+                      fontFamily: "verdana",
+                      paddingLeft: "10px",
+                      paddingRight: "10px"
+                    }}
+                  >
+                    <h3>Description</h3>
+                    <p>{data.desctiption}</p>
+                  </CardContent>
+                </Grid>
+                <Grid
+                  item
+                  style={{
+                    marginTop: "10px",
+                    minWidth: "500px",
+                    borderRadius: "10px"
+                  }}
+                >
+                  <CardContent
+                    style={{
+                      textAlign: "center",
+                      backgroundColor: "#fff",
+                      boxShadow: "2px 1px 4px grey",
+                      fontSize: "20px",
+                      fontFamily: "verdana",
+                      color: "#fff",
+                      paddingLeft: "30px",
+                      paddingRight: "30px",
+                      height: "20px"
+                    }}
+                  ></CardContent>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+          {/* -------------------- */}
           <Footer />
         </div>
       );
@@ -147,7 +204,7 @@ class EventDetail extends Component {
               width: "1000px",
               margin: "auto",
               marginTop: "50px",
-              marginBottom: "200px"
+              marginBottom: "10px"
             }}
           >
             <img
@@ -159,7 +216,7 @@ class EventDetail extends Component {
                 gutterBottom
                 variant="h5"
                 component="h2"
-                style={{ width: "85%" }}
+                style={{ width: "85%", marginLeft: "20px" }}
               >
                 {data.title}
               </Typography>
@@ -169,15 +226,9 @@ class EventDetail extends Component {
                 </Button>
               </div>
             </div>
-            <h3>{data.category ? data.category.name : ""}</h3>
-            <Button
-              variant="contained"
-              color="secondary"
-              className="button-buy"
-              style={{ marginBottom: "20px" }}
-            >
-              BUY
-            </Button>
+            <h3 style={{ marginLeft: "20px" }}>
+              {data.category ? data.category.name : ""}
+            </h3>
             <hr style={{ width: "98%", margin: "auto" }}></hr>
             <div
               style={{
@@ -195,7 +246,7 @@ class EventDetail extends Component {
                   paddingLeft: "20px"
                 }}
               >
-                <h1>Hosted By</h1>
+                <h1 className="event-detail-detail">Hosted By</h1>
                 <div
                   style={{
                     width: "100%",
@@ -218,19 +269,20 @@ class EventDetail extends Component {
                   height: "100%"
                 }}
               >
-                <h1>Date & Time</h1>
+                <h1 className="event-detail-detail">Date & Time</h1>
                 <p>
                   {data.startTime} - {data.endTime}
                 </p>
               </div>
               <div style={{ width: "33%", height: "100%" }}>
-                <h1>Contact Person</h1>
+                <h1 className="event-detail-detail">Contact Person</h1>
                 <p>{data.createdBy ? data.createdBy.name : ""}</p>
                 <p>{data.createdBy ? data.createdBy.phone : ""}</p>
                 <p>{data.createdBy ? data.createdBy.email : ""}</p>
               </div>
             </div>
           </Card>
+          <Card className="event-detail-bottom"></Card>
           <Footer />
         </div>
       );

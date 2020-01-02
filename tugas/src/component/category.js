@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { getCategories } from "../_actions/categories";
 import { getEvents } from "../_actions/events";
 import { Link } from "react-router-dom";
+import axios from "axios";
 //material-ui event
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import CardContent from "@material-ui/core/CardContent";
@@ -13,6 +14,30 @@ import Grid from "@material-ui/core/Grid";
 import Footer from "./footer";
 
 class Category extends Component {
+  constructor() {
+    super();
+    this.state = {
+      title: "",
+      result: []
+    };
+    console.log(this.state.result);
+  }
+
+  onChange = e => {
+    this.setState({ title: e.target.value });
+  };
+
+  onSubmit = () => {
+    const title = this.state.title;
+    axios
+      .get(`http://localhost:5000/api/eo/events?title=${title}`)
+      .then(res => {
+        const data = res.data;
+        console.log(data);
+        this.setState({ result: data });
+      });
+  };
+
   componentDidMount() {
     this.props.getCategories(); //Fire ACT Pending
     this.props.getEvents();
@@ -37,115 +62,263 @@ class Category extends Component {
       );
     }
 
-    return (
-      <div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "40px"
-          }}
-        >
-          <h1 style={{ fontSize: "35px" }}>Category</h1>
-        </div>
-        <Grid container style={{ flexGrow: "1" }} className="today-events">
-          <Grid item xs={12}>
-            <Grid container justify="center">
-              {data.map((entry, index) => {
-                return (
-                  <Grid key={index} item style={{ margin: "10px" }}>
-                    <Link
-                      to={"/category/" + entry.id + "/events"}
+    if (this.state.result.length != 0) {
+      return (
+        <div>
+          <Grid
+            container
+            style={{ flexGrow: "1", marginBottom: "-50px" }}
+            className="today-events"
+          >
+            <form id="search">
+              <input
+                type="text"
+                id="search-input"
+                onChange={this.onChange}
+              ></input>
+              <button type="button" id="search-button" onClick={this.onSubmit}>
+                search
+              </button>
+            </form>
+            <Grid item xs={12}>
+              <h1 style={{ marginLeft: "160px", color: "#e6494c" }}>
+                Category
+              </h1>
+              <Grid container justify="center">
+                {data.map((entry, index) => {
+                  return (
+                    <Grid
+                      key={index}
+                      item
                       style={{
-                        textDecoration: "none",
-                        color: "#000"
-                      }}
-                    >
-                      <CardContent
-                        style={{
-                          textAlign: "center",
-                          borderRadius: "20px",
-                          backgroundColor: "rgb(218, 96, 96)",
-                          boxShadow: "2px 1px 4px grey",
-                          fontSize: "20px",
-                          fontFamily: "verdana",
-                          color: "#fff",
-                          textTransform: "uppercase",
-                          paddingLeft: "30px",
-                          paddingRight: "30px",
-                          height: "20px"
-                        }}
-                      >
-                        {entry.name}
-                      </CardContent>
-                    </Link>
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </Grid>
-        </Grid>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "40px"
-          }}
-        >
-          <h1>Today Event</h1>
-        </div>
-        <Grid
-          container
-          style={{ flexGrow: "1", marginBottom: "100px" }}
-          className="today-events"
-        >
-          <Grid item xs={12}>
-            <Grid container justify="center">
-              {events.map((entry, index) => {
-                return (
-                  <Grid key={index} item style={{ margin: "10px" }}>
-                    <CardContent
-                      style={{
-                        height: "400px",
-                        width: "300px",
-                        backgroundColor: "#fff",
-                        boxShadow: "2px 1px 4px grey"
+                        marginLeft: "10px",
+                        marginRight: "10px",
+                        minWidth: "270px",
+                        borderRadius: "10px",
+                        marginBottom: "10px"
                       }}
                     >
                       <Link
-                        to={`/event/${entry.id}`}
+                        to={"/category/" + entry.id + "/events"}
                         style={{
                           textDecoration: "none",
-                          color: "#000",
-                          fontFamily: "arial"
+                          color: "#000"
                         }}
                       >
-                        <CardMedia
-                          component="img"
-                          width={"100%"}
-                          height={"200px"}
-                          image={entry.image}
-                        ></CardMedia>
-                        <h3>{entry.title}</h3>
+                        <CardContent
+                          style={{
+                            textAlign: "center",
+                            backgroundColor: "rgb(218, 96, 96)",
+                            boxShadow: "2px 1px 4px grey",
+                            fontSize: "20px",
+                            fontFamily: "verdana",
+                            color: "#fff",
+                            textTransform: "uppercase",
+                            paddingLeft: "30px",
+                            paddingRight: "30px",
+                            height: "20px"
+                          }}
+                        >
+                          {entry.name}
+                        </CardContent>
                       </Link>
-                      <FavoriteIcon
-                        style={{
-                          float: "right",
-                          position: "relative",
-                          bottom: "40px"
-                        }}
-                      />
-                      <p>{entry.desctiption}</p>
-                    </CardContent>
-                  </Grid>
-                );
-              })}
+                    </Grid>
+                  );
+                })}
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        <Footer />
-      </div>
-    );
+
+          <Grid
+            container
+            style={{ flexGrow: "1", marginBottom: "100px" }}
+            className="today-events"
+          >
+            <Grid item xs={12}>
+              <h1
+                style={{
+                  marginLeft: "160px",
+                  width: "200px",
+                  color: "#e6494c"
+                }}
+              >
+                Category
+              </h1>
+              <Grid container justify="center">
+                {this.state.result.map((entry, index) => {
+                  return (
+                    <Grid key={index} item style={{ margin: "10px" }}>
+                      <CardContent
+                        style={{
+                          height: "400px",
+                          width: "300px",
+                          backgroundColor: "#fff",
+                          boxShadow: "2px 1px 4px grey"
+                        }}
+                      >
+                        <Link
+                          to={`/event/${entry.id}`}
+                          style={{
+                            textDecoration: "none",
+                            color: "#000",
+                            fontFamily: "arial"
+                          }}
+                        >
+                          <CardMedia
+                            component="img"
+                            width={"100%"}
+                            height={"200px"}
+                            image={entry.image}
+                          ></CardMedia>
+                          <h3>{entry.title}</h3>
+                        </Link>
+                        <FavoriteIcon
+                          style={{
+                            float: "right",
+                            position: "relative",
+                            bottom: "40px"
+                          }}
+                        />
+                        <p>{entry.desctiption}</p>
+                      </CardContent>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Grid>
+          </Grid>
+          <Footer />
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <Grid
+            container
+            style={{ flexGrow: "1", marginBottom: "-50px" }}
+            className="today-events"
+          >
+            <form id="search">
+              <input
+                type="text"
+                id="search-input"
+                onChange={this.onChange}
+              ></input>
+              <button type="button" id="search-button" onClick={this.onSubmit}>
+                search
+              </button>
+            </form>
+            <Grid item xs={12}>
+              <h1 style={{ marginLeft: "160px", color: "#e6494c" }}>
+                Category
+              </h1>
+              <Grid container justify="center">
+                {data.map((entry, index) => {
+                  return (
+                    <Grid
+                      key={index}
+                      item
+                      style={{
+                        marginLeft: "10px",
+                        marginRight: "10px",
+                        minWidth: "270px",
+                        borderRadius: "10px",
+                        marginBottom: "10px"
+                      }}
+                    >
+                      <Link
+                        to={"/category/" + entry.id + "/events"}
+                        style={{
+                          textDecoration: "none",
+                          color: "#000"
+                        }}
+                      >
+                        <CardContent
+                          style={{
+                            textAlign: "center",
+                            backgroundColor: "rgb(218, 96, 96)",
+                            boxShadow: "2px 1px 4px grey",
+                            fontSize: "20px",
+                            fontFamily: "verdana",
+                            color: "#fff",
+                            textTransform: "uppercase",
+                            paddingLeft: "30px",
+                            paddingRight: "30px",
+                            height: "20px"
+                          }}
+                        >
+                          {entry.name}
+                        </CardContent>
+                      </Link>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Grid>
+          </Grid>
+
+          <Grid
+            container
+            style={{ flexGrow: "1", marginBottom: "100px" }}
+            className="today-events"
+          >
+            <Grid item xs={12}>
+              <h1
+                style={{
+                  marginLeft: "160px",
+                  width: "200px",
+                  color: "#e6494c"
+                }}
+              >
+                Today Event
+              </h1>
+              <Grid container justify="center">
+                {events.map((entry, index) => {
+                  return (
+                    <Grid key={index} item style={{ margin: "10px" }}>
+                      <CardContent
+                        style={{
+                          height: "400px",
+                          width: "300px",
+                          backgroundColor: "#fff",
+                          boxShadow: "2px 1px 4px grey"
+                        }}
+                      >
+                        <Link
+                          to={`/event/${entry.id}`}
+                          style={{
+                            textDecoration: "none",
+                            color: "#000",
+                            fontFamily: "arial"
+                          }}
+                        >
+                          <CardMedia
+                            component="img"
+                            width={"100%"}
+                            height={"200px"}
+                            image={entry.image}
+                          ></CardMedia>
+                          <h3>{entry.title}</h3>
+                        </Link>
+                        <FavoriteIcon
+                          style={{
+                            float: "right",
+                            position: "relative",
+                            bottom: "40px"
+                          }}
+                        />
+                        <p>{entry.desctiption}</p>
+                      </CardContent>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Grid>
+          </Grid>
+          <Footer />
+        </div>
+      );
+    }
   }
 }
 

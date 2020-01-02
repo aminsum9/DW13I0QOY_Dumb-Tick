@@ -24,3 +24,25 @@
   display: flex;
   justify-content: space-between;
 }
+/* search */
+#search {
+  margin: auto;
+}
+#search-input {
+  width: 1000px;
+  height: 30px;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid grey;
+  background: none;
+  padding: 10px;
+  font-size: 20px;
+}
+#search-button {
+  width: 100px;
+  height: 30px;
+  border: 1px solid grey;
+  background: grey;
+  color: #fff;
+  font-size: 20px;
+}

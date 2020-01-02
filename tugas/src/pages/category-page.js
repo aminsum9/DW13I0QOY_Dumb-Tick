@@ -42,6 +42,19 @@ class CategoryPage extends Component {
       return (
         <div>
           <HomeHeaderLogin />
+          <div>
+            {data.slice(0, 1).map(item => (
+              <h1
+                style={{
+                  marginLeft: "50px",
+                  color: "#e6494c",
+                  textTransform: "uppercase"
+                }}
+              >
+                {item.category.name}
+              </h1>
+            ))}
+          </div>
           <Grid container style={{ flexGrow: "1" }} className="today-events">
             <Grid item xs={12}>
               <Grid container justify="center">
@@ -94,6 +107,19 @@ class CategoryPage extends Component {
       return (
         <div>
           <HomeHeader />
+          <div>
+            {data.slice(0, 1).map(item => (
+              <h1
+                style={{
+                  marginLeft: "50px",
+                  color: "#e6494c",
+                  textTransform: "uppercase"
+                }}
+              >
+                {item.category.name}
+              </h1>
+            ))}
+          </div>
           <Grid container style={{ flexGrow: "1" }} className="today-events">
             <Grid item xs={12}>
               <Grid container justify="center">
