@@ -8,7 +8,14 @@ exports.getAllEvents = (req, res) => {
   events
     .findAll({
       attributes: {
-        exclude: ["userId", "category_id", "user_id", "createdAt", "updatedAt"]
+        exclude: [
+          "urlMap",
+          "userId",
+          "category_id",
+          "user_id",
+          "createdAt",
+          "updatedAt"
+        ]
       },
       include: [
         {
@@ -54,7 +61,14 @@ exports.getEventsByTitle = (req, res) => {
         ]
       },
       attributes: {
-        exclude: ["userId", "category_id", "user_id", "createdAt", "updatedAt"]
+        exclude: [
+          "urlMap",
+          "userId",
+          "category_id",
+          "user_id",
+          "createdAt",
+          "updatedAt"
+        ]
       },
       include: [
         {
@@ -92,7 +106,15 @@ exports.getEventsByCategory = (req, res) => {
     .findAll({
       where: { category_id: req.params.category_id },
       attributes: {
-        exclude: ["category_id", "user_id", "createdAt", "updatedAt", "userId"]
+        exclude: [
+          "urlMap",
+          "category_id",
+          "user_id",
+          "createdAt",
+          "updatedAt",
+          "userId"
+        ]
+        // include: ["urlmap"]
       },
       include: [
         {
@@ -116,7 +138,14 @@ exports.getEventById = (req, res) => {
     .findOne({
       where: { id: req.params.id },
       attributes: {
-        exclude: ["userId", "category_id", "user_id", "createdAt", "updatedAt"]
+        exclude: [
+          "urlMap",
+          "userId",
+          "category_id",
+          "user_id",
+          "createdAt",
+          "updatedAt"
+        ]
       },
       include: [
         {

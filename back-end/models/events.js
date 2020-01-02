@@ -4,12 +4,12 @@ module.exports = (sequelize, DataTypes) => {
     "events",
     {
       title: DataTypes.STRING,
-      startTime: DataTypes.INTEGER,
-      endTime: DataTypes.INTEGER,
+      startTime: DataTypes.DATE,
+      endTime: DataTypes.DATE,
       price: DataTypes.INTEGER,
-      desctiption: DataTypes.TEXT,
+      description: DataTypes.TEXT,
       address: DataTypes.TEXT,
-      urlmaps: DataTypes.TEXT,
+      urlMap: DataTypes.TEXT,
       image: DataTypes.TEXT,
       category_id: DataTypes.INTEGER,
       user_id: DataTypes.INTEGER

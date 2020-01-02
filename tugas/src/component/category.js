@@ -307,7 +307,7 @@ class Category extends Component {
                             bottom: "40px"
                           }}
                         />
-                        <p>{entry.desctiption}</p>
+                        <p>{entry.description.slice(0, 100) + "..."}</p>
                       </CardContent>
                     </Grid>
                   );

@@ -19,7 +19,7 @@ class AddEvent extends Component {
       address: "",
       urlmaps: "",
       phone: "",
-      desctiption: ""
+      description: ""
     };
 
     this.onChange = this.onChange.bind(this);
@@ -40,7 +40,7 @@ class AddEvent extends Component {
       address: this.state.address,
       urlmaps: this.state.urlmaps,
       phone: this.state.phone,
-      desctiption: this.state.desctiption
+      description: this.state.description
     };
 
     this.props.postEvent(event);
@@ -91,13 +91,13 @@ class AddEvent extends Component {
             <input
               type="text"
               placeholder="Start Time"
-              name="startTime"
+              name="startTime yyyy-dd-mm hh:mm:ss"
               onChange={this.onChange}
             ></input>
             <input
               type="text"
               placeholder="End Time"
-              name="endTime"
+              name="endTime yyyy-dd-mm hh:mm:ss"
               onChange={this.onChange}
             ></input>
             <input
@@ -133,7 +133,7 @@ class AddEvent extends Component {
             <input
               type="text"
               placeholder="Deskripsi Event"
-              name="desctiption"
+              name="description"
               onChange={this.onChange}
             ></input>
             <button type="button" onClick={this.onSubmit}>

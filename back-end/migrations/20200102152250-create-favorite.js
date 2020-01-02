@@ -1,50 +1,26 @@
 "use strict";
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable("events", {
+    return queryInterface.createTable("favorites", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      title: {
-        type: Sequelize.STRING
-      },
-      startTime: {
-        type: Sequelize.DATE
-      },
-      endTime: {
-        type: Sequelize.DATE
-      },
-      price: {
-        type: Sequelize.INTEGER
-      },
-      description: {
-        type: Sequelize.TEXT
-      },
-      address: {
-        type: Sequelize.TEXT
-      },
-      urlmaps: {
-        type: Sequelize.TEXT
-      },
-      image: {
-        type: Sequelize.TEXT
-      },
-      category_id: {
+      user_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: "categories",
+          model: "users",
           key: "id"
         },
         onUpdate: "cascade",
         onDelete: "cascade"
       },
-      user_id: {
+      event_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: "users",
+          model: "events",
           key: "id"
         },
         onUpdate: "cascade",
@@ -61,6 +37,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("events");
+    return queryInterface.dropTable("favorites");
   }
 };

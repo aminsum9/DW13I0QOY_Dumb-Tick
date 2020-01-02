@@ -51,7 +51,7 @@ app.group("/api/eo", router => {
   router.post("/register", controllerAuth.register);
 
   //Task 6
-  //GET Events by id
+  //GET detail Event
   router.get("/event/:id", controllerEvents.getEventById);
   //POST Order --error
   router.post("/event/:id/order", controllerOrder.addOrder);

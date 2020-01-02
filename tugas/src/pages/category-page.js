@@ -157,7 +157,7 @@ class CategoryPage extends Component {
                             bottom: "40px"
                           }}
                         />
-                        <p>{entry.desctiption}</p>
+                        <p>{entry.description}</p>
                       </CardContent>
                     </Grid>
                   );

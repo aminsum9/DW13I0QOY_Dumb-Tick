@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
       as: "createdBy",
       sourceKey: "id"
     });
+    users.hasMany(models.orders, {
+      foreignKey: "buyer_id",
+      sourceKey: "id"
+    });
   };
   return users;
 };

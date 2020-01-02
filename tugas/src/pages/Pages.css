@@ -151,9 +151,19 @@ footer {
   border: 30px solid #e6494c;
 }
 /* Event Detail */
+.sum-result {
+  width: 50px;
+  max-width: 50px;
+  height: 50px;
+  border: 1px solid purple;
+  color: "#000";
+  position: relative;
+  left: 720px;
+  top: -10px;
+}
 .button-buy {
   position: relative;
-  left: 90%;
+  left: 720px;
 }
 .event-detail-detail {
   font-size: 20px;

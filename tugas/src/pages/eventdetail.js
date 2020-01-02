@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import axios from "axios";
 // Import Redux
 import { connect } from "react-redux";
 import { getDetailEvent } from "../_actions/detailEvent";
@@ -10,20 +11,56 @@ import Footer from "../component/footer";
 //Import material-ui
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 class EventDetail extends Component {
+  constructor() {
+    super();
+    this.state = {
+      quantity: 0,
+      status: "pending",
+      attachment: "",
+      buyer_id: ""
+    };
+  }
+
   componentDidMount() {
     this.props.getDetailEvent(this.props.event_id);
+    if (localStorage.getItem("token")) {
+      let token = localStorage.getItem("token");
+      axios.defaults.headers["Authorization"] = "Bearer " + token;
+      axios.get(`http://localhost:5000/api/eo/profile`).then(res => {
+        const profile = res.data.id;
+        console.log(res.data.id);
+        this.setState({ buyer_id: profile });
+      });
+    }
   }
+
+  reduceQuantity = () => {
+    if (this.state.quantity !== 0) {
+      this.setState({ quantity: this.state.quantity - 1 });
+    }
+  };
+
+  buyTicket = dataId => dataTitle => {
+    return axios
+      .post(`http://localhost:5000/api/eo/event/${dataId}/order`, {
+        quantity: this.state.quantity,
+        status: this.state.status,
+        attachment: this.state.attachment,
+        buyer_id: this.state.buyer_id
+      })
+      .then(response => {
+        alert(`success order ticket ${dataTitle}`);
+      });
+  };
 
   render() {
     const { data, isLoading, error } = this.props.detailevent;
+
     if (error) {
       return (
         <div>
@@ -79,6 +116,28 @@ class EventDetail extends Component {
               color="secondary"
               className="button-buy"
               style={{ marginBottom: "20px" }}
+              onClick={this.reduceQuantity}
+            >
+              -
+            </Button>
+            <Button className="sum-result">{this.state.quantity}</Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              className="button-buy"
+              style={{ marginBottom: "20px" }}
+              onClick={() =>
+                this.setState({ quantity: this.state.quantity + 1 })
+              }
+            >
+              +
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              className="button-buy"
+              style={{ marginBottom: "20px", marginLeft: "10px" }}
+              onClick={() => this.buyTicket(data.id)(data.title)}
             >
               BUY
             </Button>
@@ -159,11 +218,12 @@ class EventDetail extends Component {
                       boxShadow: "2px 1px 4px grey",
                       fontFamily: "verdana",
                       paddingLeft: "10px",
-                      paddingRight: "10px"
+                      paddingRight: "10px",
+                      maxWidth: "500px"
                     }}
                   >
                     <h3>Description</h3>
-                    <p>{data.desctiption}</p>
+                    <p>{data.description}</p>
                   </CardContent>
                 </Grid>
                 <Grid
@@ -184,7 +244,8 @@ class EventDetail extends Component {
                       color: "#fff",
                       paddingLeft: "30px",
                       paddingRight: "30px",
-                      height: "20px"
+                      height: "20px",
+                      maxWidth: "500px"
                     }}
                   ></CardContent>
                 </Grid>
@@ -283,6 +344,65 @@ class EventDetail extends Component {
             </div>
           </Card>
           <Card className="event-detail-bottom"></Card>
+          {/* --------------------------- */}
+          <Grid
+            container
+            style={{ flexGrow: "1" }}
+            className=" event-detail-bottom"
+          >
+            <Grid item xs={12}>
+              <Grid container justify="center">
+                <Grid
+                  item
+                  style={{
+                    marginTop: "10px",
+                    minWidth: "500px",
+                    borderRadius: "10px",
+                    borderRight: "1px solid grey"
+                  }}
+                >
+                  <CardContent
+                    style={{
+                      // textAlign: "center",
+                      backgroundColor: "#fff",
+                      boxShadow: "2px 1px 4px grey",
+                      fontFamily: "verdana",
+                      paddingLeft: "10px",
+                      paddingRight: "10px",
+                      maxWidth: "500px"
+                    }}
+                  >
+                    <h3>Description</h3>
+                    <p>{data.description}</p>
+                  </CardContent>
+                </Grid>
+                <Grid
+                  item
+                  style={{
+                    marginTop: "10px",
+                    minWidth: "500px",
+                    borderRadius: "10px"
+                  }}
+                >
+                  <CardContent
+                    style={{
+                      textAlign: "center",
+                      backgroundColor: "#fff",
+                      boxShadow: "2px 1px 4px grey",
+                      fontSize: "20px",
+                      fontFamily: "verdana",
+                      color: "#fff",
+                      paddingLeft: "30px",
+                      paddingRight: "30px",
+                      height: "20px",
+                      maxWidth: "500px"
+                    }}
+                  ></CardContent>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+          {/* ----------------------- */}
           <Footer />
         </div>
       );
