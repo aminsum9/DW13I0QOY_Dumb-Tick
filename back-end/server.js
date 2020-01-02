@@ -58,7 +58,7 @@ app.group("/api/eo", router => {
 
   //Task 7
   //GET Detail Profile
-  router.get("/profile/:id", authenticated, controllerAuth.getProfile);
+  router.get("/profile", authenticated, controllerAuth.getProfile);
   //GET Favourite by user_id --not created yet
 
   //Task 8

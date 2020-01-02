@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import "./Pages.css";
 import { withRouter, Link } from "react-router-dom";
 // Import Component
+import HomeHeaderLogin from "../component/Home-header-login";
 import HomeHeader from "../component/Home-header";
+import Footer from "../component/footer";
 // Import redux
 import { connect } from "react-redux";
 import { getCategory } from "../_actions/category.js";
@@ -26,7 +28,7 @@ class CategoryPage extends Component {
         </div>
       );
     }
-
+    console.log(data.category);
     if (isLoading) {
       return (
         <div>
@@ -35,56 +37,112 @@ class CategoryPage extends Component {
       );
     }
 
-    return (
-      <div>
-        <HomeHeader />
-        <Grid container style={{ flexGrow: "1" }} className="today-events">
-          <Grid item xs={12}>
-            <Grid container justify="center">
-              {data.map((entry, index) => {
-                return (
-                  <Grid key={index} item style={{ margin: "10px" }}>
-                    <CardContent
-                      style={{
-                        height: "400px",
-                        width: "300px",
-                        backgroundColor: "#fff",
-                        boxShadow: "2px 1px 4px grey"
-                      }}
-                    >
-                      <Link
-                        to={`/event/${entry.id}`}
+    if (localStorage.getItem("token") != null) {
+      console.log(data);
+      return (
+        <div>
+          <HomeHeaderLogin />
+          <Grid container style={{ flexGrow: "1" }} className="today-events">
+            <Grid item xs={12}>
+              <Grid container justify="center">
+                {data.map((entry, index) => {
+                  return (
+                    <Grid key={index} item style={{ margin: "10px" }}>
+                      <CardContent
                         style={{
-                          textDecoration: "none",
-                          color: "#000",
-                          fontFamily: "arial"
+                          height: "400px",
+                          width: "300px",
+                          backgroundColor: "#fff",
+                          boxShadow: "2px 1px 4px grey"
                         }}
                       >
-                        <CardMedia
-                          component="img"
-                          width={"100%"}
-                          height={"200px"}
-                          image={entry.image}
-                        ></CardMedia>
-                        <h3>{entry.title}</h3>
-                      </Link>
-                      <FavoriteIcon
-                        style={{
-                          float: "right",
-                          position: "relative",
-                          bottom: "40px"
-                        }}
-                      />
-                      <p>{entry.desctiption}</p>
-                    </CardContent>
-                  </Grid>
-                );
-              })}
+                        <Link
+                          to={`/event/${entry.id}`}
+                          style={{
+                            textDecoration: "none",
+                            color: "#000",
+                            fontFamily: "arial"
+                          }}
+                        >
+                          <CardMedia
+                            component="img"
+                            width={"100%"}
+                            height={"200px"}
+                            image={entry.image}
+                          ></CardMedia>
+                          <h3>{entry.title}</h3>
+                        </Link>
+                        <FavoriteIcon
+                          style={{
+                            float: "right",
+                            position: "relative",
+                            bottom: "40px"
+                          }}
+                        />
+                        <p>{entry.desctiption}</p>
+                      </CardContent>
+                    </Grid>
+                  );
+                })}
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      </div>
-    );
+          <Footer />
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <HomeHeader />
+          <Grid container style={{ flexGrow: "1" }} className="today-events">
+            <Grid item xs={12}>
+              <Grid container justify="center">
+                {data.map((entry, index) => {
+                  return (
+                    <Grid key={index} item style={{ margin: "10px" }}>
+                      <CardContent
+                        style={{
+                          height: "400px",
+                          width: "300px",
+                          backgroundColor: "#fff",
+                          boxShadow: "2px 1px 4px grey"
+                        }}
+                      >
+                        <Link
+                          to={`/event/${entry.id}`}
+                          style={{
+                            textDecoration: "none",
+                            color: "#000",
+                            fontFamily: "arial"
+                          }}
+                        >
+                          <CardMedia
+                            component="img"
+                            width={"100%"}
+                            height={"200px"}
+                            image={entry.image}
+                          ></CardMedia>
+                          <h3>{entry.title}</h3>
+                        </Link>
+                        <FavoriteIcon
+                          style={{
+                            float: "right",
+                            position: "relative",
+                            bottom: "40px"
+                          }}
+                        />
+                        <p>{entry.desctiption}</p>
+                      </CardContent>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Grid>
+          </Grid>
+          <Footer />
+        </div>
+      );
+    }
   }
 }
 

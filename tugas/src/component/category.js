@@ -9,6 +9,8 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Grid from "@material-ui/core/Grid";
+//import component
+import Footer from "./footer";
 
 class Category extends Component {
   componentDidMount() {
@@ -37,6 +39,15 @@ class Category extends Component {
 
     return (
       <div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "40px"
+          }}
+        >
+          <h1 style={{ fontSize: "35px" }}>Category</h1>
+        </div>
         <Grid container style={{ flexGrow: "1" }} className="today-events">
           <Grid item xs={12}>
             <Grid container justify="center">
@@ -74,8 +85,20 @@ class Category extends Component {
             </Grid>
           </Grid>
         </Grid>
-        {/* </div> */}
-        <Grid container style={{ flexGrow: "1" }} className="today-events">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "40px"
+          }}
+        >
+          <h1>Today Event</h1>
+        </div>
+        <Grid
+          container
+          style={{ flexGrow: "1", marginBottom: "100px" }}
+          className="today-events"
+        >
           <Grid item xs={12}>
             <Grid container justify="center">
               {events.map((entry, index) => {
@@ -120,6 +143,7 @@ class Category extends Component {
             </Grid>
           </Grid>
         </Grid>
+        <Footer />
       </div>
     );
   }

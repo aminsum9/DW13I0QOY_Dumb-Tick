@@ -89,7 +89,40 @@ exports.getAllOrder = (req, res) => {
 
 //GET Order Confirmed
 exports.getOrderConfirmed = (req, res) => {
-  Orders.findOne({ where: { status: req.query.status } }).then(order =>
-    res.send(order)
-  );
+  Orders.findAll({
+    where: {
+      status: req.query.status
+    },
+    attributes: [
+      "id",
+      "quantity",
+      "totalPrice",
+      "status",
+      "attachment",
+      "event_id"
+    ],
+    include: {
+      model: Events,
+      attributes: [
+        "id",
+        "title",
+        "startTime",
+        "endTime",
+        "price",
+        "desctiption",
+        "address",
+        "urlmaps",
+        "image"
+      ],
+      include: [
+        {
+          model: category,
+          attributes: ["id", "name"]
+        },
+        {
+          model: users
+        }
+      ]
+    }
+  }).then(order => res.send(order));
 };

@@ -52,3 +52,134 @@
   position: relative;
   left: 155px;
 }
+/* Profile */
+html,
+body {
+  height: 100%;
+}
+.container {
+  height: 1000px;
+  position: relative;
+}
+.content {
+  width: 90%;
+  padding: 50px;
+  margin: 50px;
+}
+.profile-data {
+  display: flex;
+  flex-direction: row;
+}
+.profile-title {
+  width: 100%;
+}
+#title {
+  font-size: 40px;
+  margin-left: 20px;
+  margin-top: 20px;
+  color: rgb(218, 96, 96);
+}
+.data-profile {
+  width: 50%;
+  height: 300px;
+  color: #464a4a;
+  padding: 20px;
+}
+.image-profile {
+  width: 50%;
+  padding: 20px;
+}
+.image-profile img {
+  width: 200px;
+  height: 200px;
+  float: right;
+  border: 10px solid darkgrey;
+  border-radius: 50%;
+}
+#profile-phone {
+  font-size: 20px;
+}
+footer {
+  width: 100%;
+  height: 300px;
+  background: #e6494c;
+  line-height: 50px;
+  color: #fff;
+  float: bottom;
+  /* position: absolute;
+  top: 1300px; */
+  display: flex;
+  flex-direction: row;
+}
+#footer-a {
+  width: 27.33%;
+  padding: 20px;
+  line-height: 20px;
+}
+#footer-b {
+  width: 30.33%;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 0px;
+}
+#footer-c {
+  width: 27.33%;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 0px;
+}
+/* Tickets */
+.tickets {
+  background: #fff;
+  padding-top: 50px;
+  height: none;
+  margin: auto;
+  margin-top: 30px;
+  margin-bottom: 200px;
+}
+.tickets-contain {
+  width: 80%;
+  margin: auto;
+}
+.ticket {
+  margin: auto;
+  width: 100%;
+  border: 30px solid #e6494c;
+}
+/* Event Detail */
+.button-buy {
+  position: relative;
+  left: 90%;
+}
+/* Add Event */
+.addevent {
+  background: #e6494c;
+  width: 85%;
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.addevent form {
+  display: flex;
+  flex-direction: column;
+}
+.addevent form input,
+select {
+  margin-bottom: 30px;
+  outline: none;
+  border: none;
+  background: none;
+  border-bottom: 1px solid darkgrey;
+  color: #fff;
+  font-size: 20px;
+}
+.addevent form select option {
+  background: transparent;
+  color: #000;
+  outline: none;
+  border: none;
+}

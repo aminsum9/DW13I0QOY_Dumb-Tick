@@ -7,6 +7,10 @@ import Register from "./pages/register";
 import Category from "./component/category";
 import CategoryPage from "./pages/category-page";
 import EventDetail from "./pages/eventdetail";
+import Profile from "./pages/profile";
+import Tickets from "./pages/tickets";
+import Payment from "./pages/payment";
+import AddEvent from "./pages/addevent";
 import "./App.css";
 
 class App extends Component {
@@ -27,6 +31,18 @@ class App extends Component {
               </Route>
               <Route path="/event/:event_id">
                 <EventDetail />
+              </Route>
+              <Route path="/Profile">
+                <Profile />
+              </Route>
+              <Route path="/Tickets">
+                <Tickets />
+              </Route>
+              <Route path="/Payment">
+                <Payment />
+              </Route>
+              <Route path="/Addevent">
+                <AddEvent />
               </Route>
               <Route path="/">
                 <Home />

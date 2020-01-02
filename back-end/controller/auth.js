@@ -116,6 +116,6 @@ exports.getAllUsers = (req, res) => {
 //GET Profile
 exports.getProfile = (req, res) => {
   Users.findOne({
-    where: { id: req.params.id }
+    where: { id: userId }
   }).then(data => res.send(data));
 };

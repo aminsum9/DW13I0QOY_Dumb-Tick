@@ -22,30 +22,42 @@ export default function HomeHeader() {
   return (
     <div className={classes.root}>
       <AppBar position="static" style={{ backgroundColor: "#E6494C" }}>
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            DUMB-TICK
-          </Typography>
-          <Link
-            to={"/Register"}
+        <Toolbar style={{ width: "100%" }}>
+          <div style={{ width: "60%" }}>
+            <Link to="/Home" style={{ textDecoration: "none", color: "#fff" }}>
+              <Typography variant="h6" className={classes.title}>
+                DUMB-TICK
+              </Typography>
+            </Link>
+          </div>
+          <div
             style={{
-              color: "#fff",
-              fontWeight: "bold",
-              textDecoration: "none"
+              width: "40%",
+              display: "flex",
+              justifyContent: "center"
             }}
           >
-            <Button color="inherit">Register</Button>
-          </Link>
-          <Link
-            to={"/Login"}
-            style={{
-              color: "#fff",
-              fontWeight: "bold",
-              textDecoration: "none"
-            }}
-          >
-            <Button color="inherit">Login</Button>
-          </Link>
+            <Link
+              to={"/Register"}
+              style={{
+                color: "#fff",
+                fontWeight: "bold",
+                textDecoration: "none"
+              }}
+            >
+              <Button color="inherit">Register</Button>
+            </Link>
+            <Link
+              to={"/Login"}
+              style={{
+                color: "#fff",
+                fontWeight: "bold",
+                textDecoration: "none"
+              }}
+            >
+              <Button color="inherit">Login</Button>
+            </Link>
+          </div>
         </Toolbar>
       </AppBar>
     </div>
