@@ -44,6 +44,7 @@ class AddEvent extends Component {
     };
 
     this.props.postEvent(event);
+    alert("success add event");
   };
 
   componentDidMount() {

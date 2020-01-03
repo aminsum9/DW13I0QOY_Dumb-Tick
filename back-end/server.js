@@ -66,6 +66,8 @@ app.group("/api/eo", router => {
   router.put("/order/:id", controllerOrder.updatePaymentStatus);
   //GET All Orders
   router.get("/orders", controllerOrder.getAllOrder);
+  //show orders where event.createdBy = user_id
+  router.get("/ordersevent", authenticated, controllerOrder.getOrderInPayment);
 
   // Task 9
   //GET Order where status = confirmed

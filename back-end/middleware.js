@@ -7,7 +7,7 @@ exports.authenticated = (req, res, next) => {
     console.log("need header");
   }
   let token = authHeader.split("Bearer ")[1];
-  console.log(authHeader);
+  // console.log(authHeader);
 
   jwt.verify(token, "amin", (err, decoded) => {
     if (err) {

@@ -40,7 +40,9 @@ class Tickets extends Component {
         <div className="content tickets">
           <div className="tickets-contain">
             {this.state.tickets.map((ticket, index) => {
-              if ((this.state.profile = ticket.buyer_id)) {
+              // console.log(this.state.profile);
+              // console.log(ticket.buyer_id);
+              if (this.state.profile == ticket.buyer_id) {
                 return (
                   <div key={index} className="ticket">
                     <div

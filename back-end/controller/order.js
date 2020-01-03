@@ -88,7 +88,21 @@ exports.updatePaymentStatus = (req, res) => {
 
 //GET APP Order
 exports.getAllOrder = (req, res) => {
-  Orders.findAll({}).then(data => res.send(data));
+  Orders.findAll({
+    attributes: ["id", "quantity", "totalPrice", "status", "attachment"],
+    include: [
+      {
+        model: Events,
+        attributes: {
+          exclude: ["urlMap"]
+        }
+      },
+      {
+        model: users,
+        as: "createdBy"
+      }
+    ]
+  }).then(data => res.send(data));
 };
 
 //GET Order Confirmed
@@ -131,3 +145,75 @@ exports.getOrderConfirmed = (req, res) => {
     }
   }).then(order => res.send(order));
 };
+
+//show order.event_id => confirmed = id event.user_id => yg login
+// const cek = data => {
+//  data.map(item => {
+//    let item = {
+//      id: item.id
+//    }
+//  })
+// }
+
+// const tes = data => {
+//   data.map(item => {
+//     Orders.findAll({ where: { event_id: item.id } }).then({
+//       data
+//     });
+//   });
+// };
+
+exports.getOrderInPayment = (req, res) => {
+  Events.findAll({
+    where: { user_id: userId },
+    attributes: ["id", "title", "user_id"]
+  }).then(data => res.send(data));
+};
+// exports.getOrderInPayment = (req, res) => {
+//   console.log(userId);
+//   Events.findAll({
+//     where: { user_id: userId },
+//     attributes: ["id", "title", "user_id", "category_id"],
+//     exclude: ["urlMaps"]
+//   }).then(data =>
+//     Orders.findAll(data.map{{ where: { event_id: data.id } }).then(order =>
+//       res.send(order)
+//     )
+//   );
+// };
+// exports.getOrderInPayment = (req, res) => {
+//   Orders.findAll({
+//     where: {
+//       buyer_id: userId,
+//       status: "pending"
+//     },
+//     include: [
+//       {
+//         model: Events,
+//         include: [
+//            {
+//              model: category
+//            },
+//           {
+//             model: users
+//           }
+//         ]
+//       },
+//       {
+//         model: users
+//       }
+//     ]
+//   }).then(
+//     data => res.send(data)
+//      {
+//      if (data.length > 0) {
+//        res.status(200).json(newPayments(data));
+//      } else {
+//        res.status(200).json({
+//          message: "data payment is not found",
+//          result: false
+//        }
+//   );
+//   }
+//   });
+// };
