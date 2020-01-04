@@ -15,7 +15,7 @@ class Tickets extends Component {
       let token = localStorage.getItem("token");
       axios.defaults.headers["Authentication"] = "Bearer " + token;
       axios
-        .get("http://localhost:5000/api/eo/order?status=pending")
+        .get("http://localhost:5000/api/eo/order?status=confirmed")
         .then(res => {
           const tickets = res.data;
           console.log(tickets);
@@ -52,17 +52,18 @@ class Tickets extends Component {
                       }}
                     >
                       <h1>{this.state.profile.name}</h1>
-                      <h3
-                        style={{
-                          position: "relative",
-                          left: "90%",
-                          top: "-60px",
-                          width: "200px"
-                        }}
-                      >
-                        {"Rp. " + ticket.totalPrice}
-                      </h3>
                     </div>
+                    <h3
+                      style={{
+                        position: "relative",
+                        left: "80%",
+                        top: "30px",
+                        top: "-60px",
+                        width: "200px"
+                      }}
+                    >
+                      {"Rp. " + ticket.totalPrice}
+                    </h3>
                     <h1>{ticket.event ? ticket.event.title : ""}</h1>
                     <p>{ticket.event ? ticket.event.startTime : ""}</p>
                     <p>{ticket.event ? ticket.event.address : ""}</p>

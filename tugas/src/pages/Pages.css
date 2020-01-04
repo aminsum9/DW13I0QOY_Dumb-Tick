@@ -149,6 +149,7 @@ footer {
   margin: auto;
   width: 100%;
   border: 30px solid #e6494c;
+  margin-bottom: 10px;
 }
 /* Event Detail */
 .sum-result {

@@ -89,18 +89,26 @@ exports.updatePaymentStatus = (req, res) => {
 //GET APP Order
 exports.getAllOrder = (req, res) => {
   Orders.findAll({
-    attributes: ["id", "quantity", "totalPrice", "status", "attachment"],
+    attributes: [
+      "id",
+      "quantity",
+      "totalPrice",
+      "status",
+      "attachment",
+      "event_id",
+      "buyer_id"
+    ],
     include: [
       {
         model: Events,
         attributes: {
           exclude: ["urlMap"]
         }
-      },
-      {
-        model: users,
-        as: "createdBy"
       }
+      // {
+      //   model: users,
+      //   attributes: ["id", "name"]
+      // }
     ]
   }).then(data => res.send(data));
 };

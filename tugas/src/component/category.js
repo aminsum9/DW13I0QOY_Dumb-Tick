@@ -10,6 +10,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Grid from "@material-ui/core/Grid";
+import TextField from "@material-ui/core/TextField";
 //import component
 import Footer from "./footer";
 
@@ -76,9 +77,11 @@ class Category extends Component {
                 id="search-input"
                 onChange={this.onChange}
               ></input>
-              <button type="button" id="search-button" onClick={this.onSubmit}>
-                search
-              </button>
+              <TextField
+                id="standard-basic"
+                label="Standard"
+                onChange={this.onChange}
+              />
             </form>
             <Grid item xs={12}>
               <h1 style={{ marginLeft: "160px", color: "#e6494c" }}>

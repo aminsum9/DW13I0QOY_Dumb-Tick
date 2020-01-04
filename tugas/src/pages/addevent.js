@@ -33,6 +33,7 @@ class AddEvent extends Component {
     const event = {
       title: this.state.title,
       category_id: this.state.category_id,
+      user_is: 1,
       image: this.state.image,
       startTime: this.state.startTime,
       endTime: this.state.endTime,
@@ -44,7 +45,7 @@ class AddEvent extends Component {
     };
 
     this.props.postEvent(event);
-    alert("success add event");
+    // window.location = "/AddEvent";
   };
 
   componentDidMount() {
