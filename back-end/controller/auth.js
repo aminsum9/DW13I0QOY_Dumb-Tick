@@ -1,7 +1,9 @@
 const jwt = require("jsonwebtoken");
 const models = require("../models");
 const bcrypt = require("bcryptjs");
+const Events = models.events;
 const Users = models.users;
+const Favorite = models.favorite;
 
 //Login
 exports.login = (req, res) => {
@@ -117,5 +119,47 @@ exports.getAllUsers = (req, res) => {
 exports.getProfile = (req, res) => {
   Users.findOne({
     where: { id: userId }
+  }).then(data => res.send(data));
+};
+//UPDATE Profile
+exports.updateProfile = (req, res) => {
+  Users.update(req.body, { where: { id: userId } }).then(data =>
+    res.send({ message: `success update profile` })
+  );
+};
+
+//CREATE Favorite
+exports.createFavorite = (req, res) => {
+  const eventId = req.body.event_id;
+  // console.log(userId);
+  Favorite.findOne({
+    where: { user_id: userId, event_id: req.body.event_id }
+  }).then(favorite => {
+    
+    //   console.log(fav);
+    // });
+    if (favorite != null) {
+      res.send({ message: "failed" });
+      console.log(req.body.event_id);
+    } else {
+      Favorite.create({
+        user_id: req.body.user_id,
+        event_id: eventId
+      }).then(data => res.send({ message: "success" }));
+      // console.log(req.body.event_id)
+    }
+  });
+};
+
+//GET Favorite
+exports.getFavorites = (req, res) => {
+  Favorite.findAll({
+    where: { user_id: userId },
+    attributes: ["id", "user_id"],
+    include: {
+      model: Events,
+      attributes: ["id", "image", "title", "description"],
+      extends: ["urlMap"]
+    }
   }).then(data => res.send(data));
 };

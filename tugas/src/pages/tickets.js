@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import HomeHeaderLogin from "../component/Home-header-login";
 import Footer from "../component/footer";
+import { connect } from "react-redux";
 import axios from "axios";
 import "./Pages.css";
+//Import material-ui
+import RoomIcon from "@material-ui/icons/Room";
 
 class Tickets extends Component {
   constructor(props) {
@@ -34,43 +37,52 @@ class Tickets extends Component {
   }
 
   render() {
+    const { profile } = this.props.profile;
+    console.log(profile);
     return (
       <div className="container">
-        <HomeHeaderLogin />
-        <div className="content tickets">
-          <div className="tickets-contain">
-            {this.state.tickets.map((ticket, index) => {
-              // console.log(this.state.profile);
-              // console.log(ticket.buyer_id);
-              if (this.state.profile == ticket.buyer_id) {
-                return (
-                  <div key={index} className="ticket">
-                    <div
-                      style={{
-                        background: "lightgrey",
-                        padding: "10px"
-                      }}
-                    >
-                      <h1>{this.state.profile.name}</h1>
+        <HomeHeaderLogin profile={profile.image} />
+        <div className="ticket-container">
+          <h3 id="my-ticket-title">My Ticket</h3>
+          <div className="content tickets">
+            <div className="tickets-contain">
+              {this.state.tickets.map((ticket, index) => {
+                if (this.state.profile == ticket.buyer_id) {
+                  return (
+                    <div key={index} className="ticket">
+                      <div className="ticket-detail-top">
+                        <div className="ticket-profile-name">
+                          <h3>{profile.name}</h3>
+                        </div>
+                        <div className="ticket-total-price">
+                          <div className="ticket-total-price-contain">
+                            <h3>Total Price :</h3>
+                            <p>{"Rp. " + ticket.totalPrice}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="ticket-detail">
+                        <h1>{ticket.event ? ticket.event.title : ""}</h1>
+                        <p>
+                          Time :{" "}
+                          {ticket.event
+                            ? ticket.event.startTime.slice(0, 10)
+                            : ""}{" "}
+                          at{" "}
+                          {ticket.event
+                            ? ticket.event.startTime.slice(11, 19)
+                            : ""}
+                        </p>
+                        <p>
+                          <RoomIcon />
+                          {ticket.event ? ticket.event.address : ""}
+                        </p>
+                      </div>
                     </div>
-                    <h3
-                      style={{
-                        position: "relative",
-                        left: "80%",
-                        top: "30px",
-                        top: "-60px",
-                        width: "200px"
-                      }}
-                    >
-                      {"Rp. " + ticket.totalPrice}
-                    </h3>
-                    <h1>{ticket.event ? ticket.event.title : ""}</h1>
-                    <p>{ticket.event ? ticket.event.startTime : ""}</p>
-                    <p>{ticket.event ? ticket.event.address : ""}</p>
-                  </div>
-                );
-              }
-            })}
+                  );
+                }
+              })}
+            </div>
           </div>
         </div>
         <Footer />
@@ -79,55 +91,10 @@ class Tickets extends Component {
   }
 }
 
-export default Tickets;
+const mapStateToProps = state => {
+  return {
+    profile: state.profile
+  };
+};
 
-// import React, { Component } from "react";
-// //Import Component
-// import HomeHeaderLogin from "../component/Home-header-login";
-// import axios from "axios";
-// import "./Pages.css";
-
-// class Profile extends Component {
-//   constructor(props) {
-//     super();
-//     this.state = { profile: [] };
-//   }
-
-//   componentDidMount() {
-//     if (localStorage.getItem("token")) {
-//       let token = localStorage.getItem("token");
-//       axios.defaults.headers["Authorization"] = "Bearer " + token;
-//       axios.get(`http://localhost:5000/api/eo/profile`).then(res => {
-//         const profile = res.data;
-//         console.log(res.data);
-//         this.setState({ profile });
-//       });
-//     }
-//   }
-
-//   render() {
-//     return (
-//       <div className="container">
-//         <HomeHeaderLogin />
-//         <div className="content">
-//           <div className="profile-title">
-//             <h1 id="title">Profile</h1>
-//           </div>
-//           <div className="profile-data">
-//             <div className="data-profile">
-//               <h1>{this.state.profile.name}</h1>
-//               <p id="profile-phone">{this.state.profile.phone}</p>
-//               <p id="profile-phone">{this.state.profile.email}</p>
-//             </div>
-//             <div className="image-profile">
-//               <img src={this.state.profile.image}></img>
-//             </div>
-//           </div>
-//         </div>
-//         <footer></footer>
-//       </div>
-//     );
-//   }
-// }
-
-// export default Profile;
+export default connect(mapStateToProps)(Tickets);

@@ -10,7 +10,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import Avatar from "@material-ui/core/Avatar";
 
-export default function HomeHeaderLogin() {
+export default function HomeHeaderLogin(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [data, setData] = React.useState("data");
 
@@ -24,13 +24,13 @@ export default function HomeHeaderLogin() {
   };
 
   // ------------------
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios("http://localhost:5000/api/eo/profile");
-      setData(result.data);
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const result = await axios("http://localhost:5000/api/eo/profile");
+  //     setData(result.data);
+  //   };
+  //   fetchData();
+  // }, []);
   // -------------------
 
   const handleMenuCloseLoguot = () => {
@@ -68,7 +68,7 @@ export default function HomeHeaderLogin() {
       <AppBar position="static" style={{ background: "#E6494C" }}>
         <Toolbar style={{ display: "flex" }}>
           <div style={{ width: "100%", display: "flex" }}>
-            <div style={{ width: "95%" }}>
+            <div style={{ width: "80%" }}>
               <Link
                 to="/Home"
                 style={{ textDecoration: "none", color: "#fff" }}
@@ -78,7 +78,11 @@ export default function HomeHeaderLogin() {
                 </Typography>
               </Link>
             </div>
-            <p style={{ fontSize: "20px", marginRight: "10px" }}>{data.name}</p>
+            <div>
+              <p style={{ fontSize: "20px", marginRight: "10px" }}>
+                {data.name}
+              </p>
+            </div>
             <IconButton
               edge="end"
               aria-label="account of current user"
@@ -88,7 +92,7 @@ export default function HomeHeaderLogin() {
               color="inherit"
               style={{ margin: "auto" }}
             >
-              <Avatar alt="Remy Sharp" src={data.image} />
+              <Avatar alt="Remy Sharp" src={props.profile} />
             </IconButton>
           </div>
         </Toolbar>

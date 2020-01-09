@@ -114,9 +114,10 @@ exports.getAllOrder = (req, res) => {
 };
 
 //GET Order Confirmed
-exports.getOrderConfirmed = (req, res) => {
+exports.getOrderByStatus = (req, res) => {
   Orders.findAll({
     where: {
+      buyer_id: userId,
       status: req.query.status
     },
     attributes: [

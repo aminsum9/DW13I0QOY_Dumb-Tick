@@ -1,7 +1,23 @@
 import React, { Component } from "react";
+// import redux
+import { getProfile } from "../_actions/profile";
+import { connect } from "react-redux";
 
 class Footer extends Component {
+  constructor() {
+    super();
+    this.state = {
+      profile: []
+    };
+  }
+
+  componentDidMount() {
+    this.props.getProfile();
+  }
+
   render() {
+    const { profile } = this.props.profile;
+    console.log(profile);
     return (
       <div>
         <footer>
@@ -34,4 +50,18 @@ class Footer extends Component {
   }
 }
 
-export default Footer;
+const mapStateToProps = state => {
+  return {
+    profile: state.profile
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getProfile: () => {
+      dispatch(getProfile());
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Footer);

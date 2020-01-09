@@ -3,11 +3,104 @@ const categories = require("../models").categories;
 const users = require("../models").users;
 const sequelize = require("sequelize");
 const Op = sequelize.Op;
+const Helper = require("../helper/helper");
 
+//Today & Upcomming events
+exports.today = (req, res) => {
+  let message = "";
+
+  events
+    .findAll({
+      attributes: {
+        exclude: ["category_id", "user_id", "createdAt", "updatedAt", "urlMap"]
+      },
+      include:
+        //  ]
+        {
+          model: categories,
+          attributes: {
+            exclude: ["createdAt", "updatedAt"]
+          }
+        },
+      // ,{
+      //   model: User,
+      //   as: "user",
+      //   attributes: {
+      //     exclude: ["password", "createdAt", "updatedAt"]
+      //   }
+      // }
+      // ],
+      where: {
+        startTime: {
+          [Op.substring]: Helper.getDateToday()
+        }
+        // start_time: today
+      }
+    })
+    .then(data => {
+      if (!data.length) {
+        message = "Data Not found";
+        // data = {}
+        res.status(200).json(data);
+      } else {
+        res.status(200).json(data);
+      }
+    })
+    .catch(error => {
+      message = "Bad request";
+      res.status(400).json({ message });
+    });
+};
+
+exports.upcoming = (req, res) => {
+  let message = "";
+  let date = Helper.getNextDateFromToday();
+
+  events
+    .findAll({
+      attributes: {
+        exclude: ["category_id", "user_id", "createdAt", "updatedAt", "urlMap"]
+      },
+      include: [
+        {
+          model: categories,
+          attributes: {
+            exclude: ["createdAt", "updatedAt"]
+          }
+        }
+        // ,{
+        //   model: User,
+        //   as: "user",
+        //   attributes: {
+        //     exclude: ["password", "createdAt", "updatedAt"]
+        //   }
+        // }
+      ],
+      where: {
+        startTime: {
+          [Op.gt]: date
+        }
+      }
+    })
+    .then(data => {
+      if (!data.length) {
+        res.status(200).json(data);
+      } else {
+        res.status(200).json(data);
+      }
+    })
+    .catch(error => {
+      message = "Bad request";
+      res.status(400).json({ message });
+    });
+};
+
+//SHOW all events
 exports.getAllEvents = (req, res) => {
   events
     .findAll({
       attributes: {
+        include: ["urlmaps"],
         exclude: [
           "urlMap",
           "userId",
@@ -138,6 +231,7 @@ exports.getEventById = (req, res) => {
     .findOne({
       where: { id: req.params.id },
       attributes: {
+        include: ["urlmaps"],
         exclude: [
           "urlMap",
           "userId",

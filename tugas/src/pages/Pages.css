@@ -99,6 +99,51 @@ body {
 #profile-phone {
   font-size: 20px;
 }
+/* Edit Profile */
+#title-edit-profile {
+  color: #e6494c;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+}
+#edit-profile-button {
+  position: relative;
+  left: 50%;
+  top: 60px;
+}
+.edit-profile {
+  width: 90%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.edit-profile form {
+  margin: auto;
+}
+.edit-profile-input {
+  background: none;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid grey;
+  color: #000;
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+#edit-profile-submit-button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 40px;
+}
+/* Favprites */
+#title-favorites {
+  color: #e6494c;
+}
+/* Footer */
 footer {
   width: 100%;
   height: 300px;
@@ -106,8 +151,6 @@ footer {
   line-height: 50px;
   color: #fff;
   float: bottom;
-  /* position: absolute;
-  top: 1300px; */
   display: flex;
   flex-direction: row;
 }
@@ -133,6 +176,14 @@ footer {
   line-height: 0px;
 }
 /* Tickets */
+.ticket-container {
+  width: 90%;
+  margin: auto;
+}
+#my-ticket-title {
+  font-size: 40px;
+  color: #e6494c;
+}
 .tickets {
   background: #fff;
   padding-top: 50px;
@@ -145,11 +196,41 @@ footer {
   width: 80%;
   margin: auto;
 }
+.ticket-profile-name {
+  width: 60%;
+}
+.ticket-detail-top {
+  background: lightgrey;
+  padding: 20px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+}
+.ticket-total-price {
+  position: relative;
+  color: rgb(54, 53, 53);
+  width: 40%;
+  z-index: 20;
+  padding-right: 5%;
+}
+.ticket-total-price-contain {
+  float: right;
+}
+.ticket-total-price p {
+  font-size: 20px;
+}
+.ticket-detail {
+  padding: 20px;
+}
 .ticket {
   margin: auto;
   width: 100%;
   border: 30px solid #e6494c;
   margin-bottom: 10px;
+}
+/* Category Page */
+.today-events {
+  margin-bottom: 100px;
 }
 /* Event Detail */
 .sum-result {
@@ -157,7 +238,7 @@ footer {
   max-width: 50px;
   height: 50px;
   border: 1px solid purple;
-  color: "#000";
+  color: #000;
   position: relative;
   left: 720px;
   top: -10px;
@@ -180,9 +261,12 @@ footer {
   margin-bottom: 100px;
 }
 /* Add Event */
-.addevent {
-  background: #e6494c;
+.addback {
+  background-color: #f09697;
+}
+.addevent ::-webkit-input-placeholder {
   width: 85%;
+  color: #fff;
   margin: auto;
   margin-top: 50px;
   margin-bottom: 50px;
@@ -202,7 +286,7 @@ select {
   outline: none;
   border: none;
   background: none;
-  border-bottom: 1px solid darkgrey;
+  border-bottom: 1px solid rgb(66, 64, 64);
   color: #fff;
   font-size: 20px;
 }

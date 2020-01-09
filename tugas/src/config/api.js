@@ -18,7 +18,6 @@ export const register = newUser => {
       phone: newUser.phone
     })
     .then(response => {
-      console.log(response);
       if (response.data.token === undefined) {
       } else {
         localStorage.setItem("token", response.data.token);
@@ -31,7 +30,6 @@ export const register = newUser => {
 };
 
 export const login = user => {
-  console.log(user);
   return axios
     .post("http://localhost:5000/api/eo/login", {
       email: user.email,
@@ -47,5 +45,23 @@ export const login = user => {
     })
     .catch(err => {
       console.log(err);
+    });
+};
+
+export const updateProfile = data => {
+  const token = localStorage.getItem("token");
+  axios.defaults.headers["Authorization"] = "Bearer " + token;
+  return axios
+    .put(`http://localhost:5000/api/eo/profile/edit`, data)
+    .then(response => alert(response.data.message));
+};
+
+export const favorite = data => {
+  const token = localStorage.getItem("token");
+  axios.defaults.headers["Authorization"] = "Bearer " + token;
+  return axios
+    .post("http://localhost:5000/api/eo/favorite", data)
+    .then(response => {
+      return response;
     });
 };

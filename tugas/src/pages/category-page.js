@@ -8,6 +8,7 @@ import Footer from "../component/footer";
 // Import redux
 import { connect } from "react-redux";
 import { getCategory } from "../_actions/category.js";
+import { getProfile } from "../_actions/profile";
 //Import material-ui
 import Grid from "@material-ui/core/Grid";
 import CardContent from "@material-ui/core/CardContent";
@@ -15,8 +16,16 @@ import CardMedia from "@material-ui/core/CardMedia";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 
 class CategoryPage extends Component {
+  constructor() {
+    super();
+    this.state = {
+      profile: []
+    };
+  }
+
   componentDidMount() {
     this.props.getCategory(this.props.category_id);
+    this.props.getProfile();
   }
 
   render() {
@@ -38,10 +47,10 @@ class CategoryPage extends Component {
     }
 
     if (localStorage.getItem("token") != null) {
-      console.log(data);
+      const { profile } = this.props.profile;
       return (
         <div>
-          <HomeHeaderLogin />
+          <HomeHeaderLogin profile={profile.image} />
           <div>
             {data.slice(0, 1).map(item => (
               <h1
@@ -92,7 +101,7 @@ class CategoryPage extends Component {
                             bottom: "40px"
                           }}
                         />
-                        <p>{entry.desctiption}</p>
+                        <p>{entry.description.slice(0, 100) + "..."}</p>
                       </CardContent>
                     </Grid>
                   );
@@ -157,7 +166,7 @@ class CategoryPage extends Component {
                             bottom: "40px"
                           }}
                         />
-                        <p>{entry.description}</p>
+                        <p>{entry.description.slice(0, 100) + "..."}</p>
                       </CardContent>
                     </Grid>
                   );
@@ -175,7 +184,8 @@ class CategoryPage extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     category_id: ownProps.match.params.category_id,
-    category: state.category
+    category: state.category,
+    profile: state.profile
   };
 };
 
@@ -183,6 +193,9 @@ const mapDispatchToProps = dispatch => {
   return {
     getCategory: category_id => {
       dispatch(getCategory(category_id));
+    },
+    getProfile: () => {
+      dispatch(getProfile());
     }
   };
 };

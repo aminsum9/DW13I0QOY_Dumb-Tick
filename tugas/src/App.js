@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+//Import Component
 import HomeHeader from "./component/Home-header";
 import Home from "./Home";
 import Login from "./pages/login";
@@ -11,6 +12,7 @@ import Profile from "./pages/profile";
 import Tickets from "./pages/tickets";
 import Payment from "./pages/payment";
 import AddEvent from "./pages/addevent";
+import EditProfile from "./pages/edit-profile";
 import "./App.css";
 
 class App extends Component {
@@ -22,6 +24,9 @@ class App extends Component {
             <Switch>
               <Route path="/HomeHeader">
                 <HomeHeader />
+              </Route>
+              <Route path="/edit-profile">
+                <EditProfile />
               </Route>
               <Route path="/category/:category_id/events">
                 <CategoryPage />

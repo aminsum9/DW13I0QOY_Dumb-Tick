@@ -5,6 +5,10 @@ import { events } from "../_reducers/events";
 import { addevent } from "../_reducers/addevent";
 import { category } from "../_reducers/category";
 import { detailevent } from "../_reducers/detailEvent";
+import { profile } from "../_reducers/profile";
+import { favorites } from "../_reducers/favorites";
+import { today } from "../_reducers/today";
+import { upcoming } from "../_reducers/upcoming";
 
 import { promise, logger } from "./middleware";
 
@@ -14,7 +18,11 @@ const rootReducers = combineReducers({
   category,
   detailevent,
   addevent,
-  events
+  events,
+  profile,
+  favorites,
+  today,
+  upcoming
 });
 
 //SetUp Store Redux

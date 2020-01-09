@@ -4,6 +4,7 @@ import axios from "axios";
 // Import Redux
 import { connect } from "react-redux";
 import { getDetailEvent } from "../_actions/detailEvent";
+import { getProfile } from "../_actions/profile";
 // Import Component
 import HomeHeaderLogin from "../component/Home-header-login";
 import HomeHeader from "../component/Home-header";
@@ -14,6 +15,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import RoomIcon from "@material-ui/icons/Room";
 
 class EventDetail extends Component {
   constructor() {
@@ -22,12 +24,14 @@ class EventDetail extends Component {
       quantity: 0,
       status: "pending",
       attachment: "",
-      buyer_id: ""
+      buyer_id: "",
+      profile: []
     };
   }
 
   componentDidMount() {
     this.props.getDetailEvent(this.props.event_id);
+    this.props.getProfile();
     if (localStorage.getItem("token")) {
       let token = localStorage.getItem("token");
       axios.defaults.headers["Authorization"] = "Bearer " + token;
@@ -78,9 +82,10 @@ class EventDetail extends Component {
     }
 
     if (localStorage.getItem("token") != null) {
+      const { profile } = this.props.profile;
       return (
         <div>
-          <HomeHeaderLogin />
+          <HomeHeaderLogin profile={profile.image} />
           <Card
             style={{
               width: "1000px",
@@ -219,7 +224,8 @@ class EventDetail extends Component {
                       fontFamily: "verdana",
                       paddingLeft: "10px",
                       paddingRight: "10px",
-                      maxWidth: "500px"
+                      maxWidth: "500px",
+                      minHeight: "500px"
                     }}
                   >
                     <h3>Description</h3>
@@ -241,13 +247,36 @@ class EventDetail extends Component {
                       boxShadow: "2px 1px 4px grey",
                       fontSize: "20px",
                       fontFamily: "verdana",
-                      color: "#fff",
+                      color: "#000",
                       paddingLeft: "30px",
                       paddingRight: "30px",
-                      height: "20px",
-                      maxWidth: "500px"
+                      maxWidth: "500px",
+                      minHeight: "500px"
                     }}
-                  ></CardContent>
+                  >
+                    <h3>Location</h3>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center"
+                      }}
+                    >
+                      <RoomIcon />
+                      <p>{data.address}</p>
+                    </div>
+
+                    <iframe
+                      style={{
+                        width: "400px",
+                        height: "200px",
+                        frameBorder: "0",
+                        style: "border:0;",
+                        allowFullscreen: ""
+                      }}
+                      src={data.urlmaps}
+                    ></iframe>
+                  </CardContent>
                 </Grid>
               </Grid>
             </Grid>
@@ -369,7 +398,8 @@ class EventDetail extends Component {
                       fontFamily: "verdana",
                       paddingLeft: "10px",
                       paddingRight: "10px",
-                      maxWidth: "500px"
+                      maxWidth: "500px",
+                      minHeight: "500px"
                     }}
                   >
                     <h3>Description</h3>
@@ -391,13 +421,34 @@ class EventDetail extends Component {
                       boxShadow: "2px 1px 4px grey",
                       fontSize: "20px",
                       fontFamily: "verdana",
-                      color: "#fff",
+                      color: "#000",
                       paddingLeft: "30px",
                       paddingRight: "30px",
-                      height: "20px",
-                      maxWidth: "500px"
+                      maxWidth: "500px",
+                      minHeight: "500px"
                     }}
-                  ></CardContent>
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center"
+                      }}
+                    >
+                      <RoomIcon />
+                      <p>{data.address}</p>
+                    </div>
+                    <iframe
+                      style={{
+                        width: "400px",
+                        height: "200px",
+                        frameBorder: "0",
+                        style: "border:0;",
+                        allowFullscreen: ""
+                      }}
+                      src={data.urlmaps}
+                    ></iframe>
+                  </CardContent>
                 </Grid>
               </Grid>
             </Grid>
@@ -413,7 +464,8 @@ class EventDetail extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     event_id: ownProps.match.params.event_id,
-    detailevent: state.detailevent
+    detailevent: state.detailevent,
+    profile: state.profile
   };
 };
 
@@ -421,6 +473,9 @@ const mapDispatchToProps = dispatch => {
   return {
     getDetailEvent: event_id => {
       dispatch(getDetailEvent(event_id));
+    },
+    getProfile: () => {
+      dispatch(getProfile());
     }
   };
 };

@@ -33,6 +33,10 @@ app.group("/api/eo", router => {
   router.get("/events", controllerEvents.getEventsByTitle);
   //GET event by startTime tomorrow -- not created yet
 
+  //today & upcomming
+  router.get("/today/events", controllerEvents.today);
+  router.get("/upcoming/events", controllerEvents.upcoming);
+
   //Task 2
   //GET events by category
   router.get(
@@ -59,7 +63,12 @@ app.group("/api/eo", router => {
   //Task 7
   //GET Detail Profile
   router.get("/profile", authenticated, controllerAuth.getProfile);
-  //GET Favourite by user_id --not created yet
+  //UPDATE Detail Profile
+  router.put("/profile/edit", authenticated, controllerAuth.updateProfile);
+  // CREATE Favorite
+  router.post("/favorite", authenticated, controllerAuth.createFavorite);
+  //GET Favourite by user_id
+  router.get("/user/favorite", authenticated, controllerAuth.getFavorites);
 
   //Task 8
   //Update PAYMENT
@@ -71,7 +80,7 @@ app.group("/api/eo", router => {
 
   // Task 9
   //GET Order where status = confirmed
-  router.get("/order?", authenticated, controllerOrder.getOrderConfirmed);
+  router.get("/order?", authenticated, controllerOrder.getOrderByStatus);
 
   //Task 10
   router.post("/event", authenticated, controllerEvents.addEvent);

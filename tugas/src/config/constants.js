@@ -12,3 +12,18 @@ export const GET_CATEGORY = "GET_CATEGORY";
 
 //GET Detail Event
 export const GET_DETAIL_EVENT = "GET_DETAIL_EVENT";
+
+//GET Profile
+export const GET_PROFILE = "GET_PROFILE";
+
+//UPDATE Profile
+export const UPDATE_PROFILE = "UPDATE_PROFILE";
+
+//GET Favorites
+export const GET_FAVORITES = "GET_FAVORITES";
+
+//GET Events Today
+export const GET_EVENTS_TODAY = "GET_EVENTS_TODAY";
+
+//GET Events Upcomming
+export const GET_EVENTS_UPCOMING = "GET_EVENTS_UPCOMING";

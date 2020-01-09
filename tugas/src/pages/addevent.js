@@ -45,7 +45,6 @@ class AddEvent extends Component {
     };
 
     this.props.postEvent(event);
-    // window.location = "/AddEvent";
   };
 
   componentDidMount() {
@@ -55,14 +54,15 @@ class AddEvent extends Component {
   render() {
     const { data } = this.props.categories;
     const { data2 } = this.props.addevent;
+    const { profile } = this.props.profile;
     if (data2 != null) {
       alert(data2.message);
     }
 
     return (
       <div>
-        <HomeHeaderLogin />
-        <div className="content addevent">
+        <HomeHeaderLogin profile={profile.image} />
+        <div className="content addevent addback">
           <form onSubmit={this.onSubmit}>
             <h1 id="addevent-title">Add Event</h1>
             <input
@@ -90,16 +90,18 @@ class AddEvent extends Component {
               name="image"
               onChange={this.onChange}
             ></input>
+            <label for="startTime">Start Time</label>
             <input
-              type="text"
-              placeholder="Start Time"
-              name="startTime yyyy-dd-mm hh:mm:ss"
+              type="date"
+              placeholder="starttime"
+              name="startTime "
               onChange={this.onChange}
             ></input>
+            <label for="endTime">End Time</label>
             <input
-              type="text"
-              placeholder="End Time"
-              name="endTime yyyy-dd-mm hh:mm:ss"
+              type="date"
+              id="endTime"
+              name="endTime"
               onChange={this.onChange}
             ></input>
             <input
@@ -152,7 +154,8 @@ class AddEvent extends Component {
 const mapStateToProps = state => {
   return {
     categories: state.categories,
-    addevent: state.addevent
+    addevent: state.addevent,
+    profile: state.profile
   };
 };
 
