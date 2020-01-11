@@ -94,7 +94,7 @@ class AddEvent extends Component {
             <input
               type="date"
               placeholder="starttime"
-              name="startTime "
+              name="startTime"
               onChange={this.onChange}
             ></input>
             <label for="endTime">End Time</label>
