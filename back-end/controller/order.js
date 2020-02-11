@@ -1,7 +1,7 @@
 const Orders = require("../models").orders;
 const Events = require("../models").events;
 const category = require("../models").categories;
-const users = require("../models").categories;
+const users = require("../models").users;
 
 // POST Order
 exports.addOrder = (req, res) => {
@@ -76,9 +76,15 @@ exports.addOrder = (req, res) => {
 //update Payment
 exports.updatePaymentStatus = (req, res) => {
   const id = req.params.id;
-  Orders.update(req.body, {
-    where: { id: id }
-  }).then(data =>
+  const status = req.body.status;
+  Orders.update(
+    {
+      status: status
+    },
+    {
+      where: { id: id }
+    }
+  ).then(data =>
     res.send({
       message: "data updated successfuly",
       data
@@ -115,6 +121,7 @@ exports.getAllOrder = (req, res) => {
 
 //GET Order Confirmed
 exports.getOrderByStatus = (req, res) => {
+  console.log("tes");
   Orders.findAll({
     where: {
       buyer_id: userId,
@@ -129,29 +136,37 @@ exports.getOrderByStatus = (req, res) => {
       "event_id",
       "buyer_id"
     ],
-    include: {
-      model: Events,
-      attributes: [
-        "id",
-        "title",
-        "startTime",
-        "endTime",
-        "price",
-        "description",
-        "address",
-        "urlmaps",
-        "image"
-      ],
-      include: [
-        {
-          model: category,
-          attributes: ["id", "name"]
-        },
-        {
-          model: users
-        }
-      ]
-    }
+    include: [
+      {
+        model: Events,
+        attributes: [
+          "id",
+          "title",
+          "startTime",
+          "endTime",
+          "price",
+          "description",
+          "address",
+          "urlmaps",
+          "image"
+        ],
+        include: [
+          {
+            model: category,
+            attributes: ["id", "name"]
+          },
+          {
+            model: users,
+            as: "createdBy"
+          }
+        ]
+      },
+      {
+        model: users,
+        as: "buyer",
+        attributes: ["name"]
+      }
+    ]
   }).then(order => res.send(order));
 };
 

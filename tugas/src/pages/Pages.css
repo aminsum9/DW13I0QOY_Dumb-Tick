@@ -62,9 +62,10 @@ body {
   position: relative;
 }
 .content {
-  width: 85%;
-  padding: 50px;
-  margin: 50px;
+  margin-top: 20px;
+  max-width: 85%;
+  /* margin: 50px; */
+  margin: auto;
 }
 .profile-data {
   display: flex;
@@ -110,7 +111,7 @@ body {
 #edit-profile-button {
   position: relative;
   left: 50%;
-  top: 60px;
+  top: 67px;
 }
 .edit-profile {
   width: 90%;
@@ -233,6 +234,12 @@ footer {
   margin-bottom: 100px;
 }
 /* Event Detail */
+.is-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 .sum-result {
   width: 50px;
   max-width: 50px;
@@ -263,6 +270,9 @@ footer {
 /* Add Event */
 .addback {
   background-color: #f09697;
+  padding: 40px;
+  margin-top: 100px;
+  margin-bottom: 100px;
 }
 .addevent ::-webkit-input-placeholder {
   width: 85%;
@@ -296,6 +306,14 @@ select {
   outline: none;
   border: none;
 }
+#addevent-description {
+  border: none;
+  background: #fff;
+  padding: 10px;
+  font-size: 20px;
+  margin-bottom: 20px;
+  height: 100px;
+}
 .addevent form button {
   width: 100px;
   height: 50px;
@@ -307,6 +325,11 @@ select {
 }
 
 /* Payment */
+.content-payment {
+  width: 80%;
+  margin: auto;
+  margin-bottom: 20px;
+}
 #payment-title {
   color: #e6494c;
 }
@@ -317,12 +340,13 @@ select {
   padding-bottom: 0px;
 }
 .payment-item {
-  width: 80%;
+  width: 100%;
   margin: auto;
-  height: 500px;
+  height: 740px;
   background: #fff;
   margin-bottom: 20px;
-  padding: 10px;
+  padding-top: 50px;
+  margin-bottom: 30px;
 }
 .payment-order {
   width: 80%;
@@ -333,5 +357,53 @@ select {
 .payment-order-name {
   width: 100%;
   height: 100px;
-  background: lightgrey;
+  background: #d4d2d2;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+#payment-order-name-name {
+  margin-top: 0px;
+  margin-left: 20px;
+  padding-top: 10px;
+  color: #4a4848;
+}
+#payment-order-total-price {
+  margin-right: 20px;
+}
+#payment-order-event-title {
+  color: #4a4848;
+  margin-left: 20px;
+}
+#payment-order-start-time {
+  margin-left: 20px;
+}
+#payment-order-event-address {
+  margin-left: 20px;
+}
+#shopping-summary {
+  width: 75%;
+  margin: auto;
+}
+#total-price {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+#confirm {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 30px;
+}
+#struc-image {
+  width: 200px;
+  height: 200px;
+}
+#button-confirmed {
+  height: 40px;
+  width: 100px;
+  background: #e6494c;
+  color: #fff;
+  font-weight: bold;
 }

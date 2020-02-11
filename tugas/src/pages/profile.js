@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 //Import Component
-import HomeHeaderLogin from "../component/Home-header-login";
+import HomeHeader from "../component/Home-header";
 import axios from "axios";
 import Footer from "../component/footer";
 import "./Pages.css";
@@ -32,7 +32,7 @@ class Profile extends Component {
     console.log(favorites);
     return (
       <div className="container">
-        <HomeHeaderLogin profile={profile.image} />
+        <HomeHeader profile={profile.image} name={profile.name} />
         <div className="content">
           <Link to="/edit-profile" style={{ textDecoration: "none" }}>
             <Button

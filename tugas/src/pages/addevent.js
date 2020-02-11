@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import HomeHeaderLogin from "../component/Home-header-login";
+import HomeHeader from "../component/Home-header";
 import { connect } from "react-redux";
 import { postEvent } from "../_actions/events";
 import { getCategories } from "../_actions/categories";
 import Footer from "../component/footer";
+import TextField from "@material-ui/core/TextField";
 import "./Pages.css";
 
 class AddEvent extends Component {
@@ -13,13 +14,16 @@ class AddEvent extends Component {
       title: "",
       category_id: "",
       image: "",
+      startDate: "",
       startTime: "",
+      endDate: "",
       endTime: "",
       price: "",
       address: "",
       urlmaps: "",
       phone: "",
-      description: ""
+      description: "",
+      responseAddData: ""
     };
 
     this.onChange = this.onChange.bind(this);
@@ -33,18 +37,28 @@ class AddEvent extends Component {
     const event = {
       title: this.state.title,
       category_id: this.state.category_id,
-      user_is: 1,
+      user_id: 1,
       image: this.state.image,
-      startTime: this.state.startTime,
-      endTime: this.state.endTime,
+      startTime: this.state.startDate + " " + this.state.startTime,
+      endTime: this.state.endDate + " " + this.state.endTime,
       price: this.state.price,
       address: this.state.address,
       urlmaps: this.state.urlmaps,
       phone: this.state.phone,
       description: this.state.description
     };
-
+    console.log(event);
     this.props.postEvent(event);
+    const { addevent } = this.props.addevent;
+    window.setTimeout(this.getAddevent, 1000);
+  };
+
+  getAddevent = () => {
+    const { addevent } = this.props.addevent;
+    if (addevent != null) {
+      alert(addevent.message);
+      window.location = "/Addevent";
+    }
   };
 
   componentDidMount() {
@@ -53,15 +67,11 @@ class AddEvent extends Component {
 
   render() {
     const { data } = this.props.categories;
-    const { data2 } = this.props.addevent;
     const { profile } = this.props.profile;
-    if (data2 != null) {
-      alert(data2.message);
-    }
 
     return (
       <div>
-        <HomeHeaderLogin profile={profile.image} />
+        <HomeHeader profile={profile.image} name={profile.name} />
         <div className="content addevent addback">
           <form onSubmit={this.onSubmit}>
             <h1 id="addevent-title">Add Event</h1>
@@ -76,6 +86,7 @@ class AddEvent extends Component {
               onChange={this.onChange}
               name="category_id"
             >
+              <option>please select one..</option>;
               {data.map((entry, index) => {
                 return (
                   <option key={index} value={entry.id}>
@@ -90,20 +101,78 @@ class AddEvent extends Component {
               name="image"
               onChange={this.onChange}
             ></input>
-            <label for="startTime">Start Time</label>
-            <input
-              type="date"
-              placeholder="starttime"
-              name="startTime"
-              onChange={this.onChange}
-            ></input>
-            <label for="endTime">End Time</label>
-            <input
-              type="date"
-              id="endTime"
-              name="endTime"
-              onChange={this.onChange}
-            ></input>
+            <div
+              style={{ width: "100%", display: "flex", flexDirection: "row" }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "50%"
+                }}
+              >
+                <label style={{ color: "#fff", fontSize: 20 }}>
+                  Start Date
+                </label>
+                <input
+                  type="date"
+                  name="startDate"
+                  style={{ width: "90%" }}
+                  onChange={this.onChange}
+                ></input>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "50%"
+                }}
+              >
+                <label style={{ color: "#fff", fontSize: 20 }}>
+                  Start Time
+                </label>
+                <input
+                  type="time"
+                  name="startTime"
+                  onChange={this.onChange}
+                  style={{ width: "100%" }}
+                ></input>
+              </div>
+            </div>
+            <div
+              style={{ width: "100%", display: "flex", flexDirection: "row" }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "50%"
+                }}
+              >
+                <label style={{ color: "#fff", fontSize: 20 }}>End Date</label>
+                <input
+                  type="date"
+                  name="endDate"
+                  style={{ width: "90%" }}
+                  onChange={this.onChange}
+                ></input>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "50%"
+                }}
+              >
+                <label style={{ color: "#fff", fontSize: 20 }}>End Time</label>
+                <input
+                  type="time"
+                  name="endTime"
+                  onChange={this.onChange}
+                  style={{ width: "100%" }}
+                ></input>
+              </div>
+            </div>
             <input
               type="text"
               placeholder="Price"
@@ -134,12 +203,16 @@ class AddEvent extends Component {
               name="email"
               onChange={this.onChange}
             ></input> */}
-            <input
+            <label style={{ color: "#fff", fontSize: 20, fontSize: 23 }}>
+              Deskripsi Event
+            </label>
+            <textarea
+              id="addevent-description"
               type="text"
-              placeholder="Deskripsi Event"
+              // placeholder="Deskripsi Event"
               name="description"
               onChange={this.onChange}
-            ></input>
+            ></textarea>
             <button type="button" onClick={this.onSubmit}>
               Publish
             </button>

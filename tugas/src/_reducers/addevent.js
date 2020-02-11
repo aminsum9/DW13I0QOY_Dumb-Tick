@@ -1,7 +1,7 @@
 import { POST_EVENT } from "../config/constants";
 
 const initialState = {
-  data: [],
+  addevent: [],
   isLoading: false,
   error: false
 };
@@ -14,10 +14,9 @@ export const addevent = (state = initialState, action) => {
         isLoading: true
       };
     case `${POST_EVENT}_FULFILLED`:
-      console.log(action.payload);
       return {
         ...state,
-        event: action.payload.data,
+        addevent: action.payload.data,
         isLoading: false
       };
     case `${POST_EVENT}_REJECTED`:

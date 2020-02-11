@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     });
     orders.belongsTo(models.users, {
       foreignKey: "buyer_id",
+      as: "buyer",
       sourceKey: "id"
     });
   };

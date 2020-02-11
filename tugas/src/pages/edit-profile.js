@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import HomeHeaderLogin from "../component/Home-header-login";
+import HomeHeader from "../component/Home-header";
 //Import Component
 import { connect } from "react-redux";
 import { getProfile } from "../_actions/profile";
@@ -27,18 +27,30 @@ class EditProfile extends Component {
   }
 
   onChange(e) {
+    // console.log(files);
     this.setState({ [e.target.name]: e.target.value });
+  }
+
+  onChangeImage(e) {
+    const files = e.target.files;
+    const reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+    reader.onload = e => {
+      console.warn("img data", e.target.result);
+      this.setState({ image: e.target.result });
+    };
   }
 
   onClick = e => {
     e.preventDefault();
-
+    console.log(this.state.image);
     const data = {
       name: this.state.name,
       email: this.state.email,
       username: this.state.username,
       password: this.state.password,
-      phone: this.state.phone
+      phone: this.state.phone,
+      image: this.state.image
     };
     updateProfile(data);
   };
@@ -60,7 +72,7 @@ class EditProfile extends Component {
     const { profile } = this.props.profile;
     return (
       <div>
-        <HomeHeaderLogin profile={profile.image} />
+        <HomeHeader profile={profile.image} name={profile.name} />
         <div id="title-edit-profile">
           <h1>Edit Profile</h1>
         </div>
@@ -115,12 +127,13 @@ class EditProfile extends Component {
             ></input>
             <label for="image">Image :</label>
             <input
-              className="edit-profile-input"
+              // className="edit-profile-input"
               required
+              type="file"
               name="image"
               id="image"
-              onChange={this.onChange}
-              value={this.state.image}
+              onChange={e => this.onChangeImage(e)}
+              // value={this.state.image}
             ></input>
             <div id="edit-profile-submit-button">
               <Button

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import HomeHeaderLogin from "../component/Home-header-login";
+import HomeHeader from "../component/Home-header";
 import Footer from "../component/footer";
 import { connect } from "react-redux";
 import axios from "axios";
@@ -21,7 +21,6 @@ class Tickets extends Component {
         .get("http://localhost:5000/api/eo/order?status=confirmed")
         .then(res => {
           const tickets = res.data;
-          console.log(tickets);
           this.setState({ tickets });
         });
     }
@@ -30,7 +29,6 @@ class Tickets extends Component {
       axios.defaults.headers["Authorization"] = "Bearer " + token;
       axios.get(`http://localhost:5000/api/eo/profile`).then(res => {
         const profile = res.data.id;
-        console.log(res.data.id);
         this.setState({ profile });
       });
     }
@@ -38,10 +36,9 @@ class Tickets extends Component {
 
   render() {
     const { profile } = this.props.profile;
-    console.log(profile);
     return (
       <div className="container">
-        <HomeHeaderLogin profile={profile.image} />
+        <HomeHeader profile={profile.image} name={profile.name} />
         <div className="ticket-container">
           <h3 id="my-ticket-title">My Ticket</h3>
           <div className="content tickets">
@@ -56,8 +53,8 @@ class Tickets extends Component {
                         </div>
                         <div className="ticket-total-price">
                           <div className="ticket-total-price-contain">
-                            <h3>Total Price :</h3>
-                            <p>{"Rp. " + ticket.totalPrice}</p>
+                            <h3>Price </h3>
+                            <p>Rp.{ticket.event ? ticket.event.price : ""}</p>
                           </div>
                         </div>
                       </div>

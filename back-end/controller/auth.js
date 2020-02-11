@@ -15,6 +15,8 @@ exports.login = (req, res) => {
   }).then(user => {
     if (user) {
       const token = jwt.sign({ id: user.id }, "amin");
+      //async storage
+      // AsyncStorage.setItem('token', name);
       res.send({
         message: "success",
         name: user.name,
@@ -135,17 +137,19 @@ exports.createFavorite = (req, res) => {
   Favorite.findOne({
     where: { user_id: userId, event_id: req.body.event_id }
   }).then(favorite => {
-    
     //   console.log(fav);
     // });
     if (favorite != null) {
-      res.send({ message: "failed" });
-      console.log(req.body.event_id);
+      // res.send({ message: "failed" });
+      // console.log(req.body.event_id);
+      Favorite.destroy({
+        where: { event_id: eventId, user_id: req.body.user_id }
+      }).then(data => res.send({ message: "success delete favorite" }));
     } else {
       Favorite.create({
         user_id: req.body.user_id,
         event_id: eventId
-      }).then(data => res.send({ message: "success" }));
+      }).then(data => res.send({ message: "success add favorite" }));
       // console.log(req.body.event_id)
     }
   });
@@ -155,7 +159,7 @@ exports.createFavorite = (req, res) => {
 exports.getFavorites = (req, res) => {
   Favorite.findAll({
     where: { user_id: userId },
-    attributes: ["id", "user_id"],
+    attributes: ["id", "user_id", "event_id"],
     include: {
       model: Events,
       attributes: ["id", "image", "title", "description"],

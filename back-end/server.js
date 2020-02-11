@@ -19,7 +19,7 @@ app.use(cors());
 
 app.use(express.json());
 
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 app.group("/api/eo", router => {
   //Task 1 -- req.query still uncompleted
@@ -72,14 +72,14 @@ app.group("/api/eo", router => {
 
   //Task 8
   //Update PAYMENT
-  router.put("/order/:id", controllerOrder.updatePaymentStatus);
+  router.put("/order/:id", authenticated, controllerOrder.updatePaymentStatus);
   //GET All Orders
   router.get("/orders", controllerOrder.getAllOrder);
   //show orders where event.createdBy = user_id
   router.get("/ordersevent", authenticated, controllerOrder.getOrderInPayment);
 
   // Task 9
-  //GET Order where status = confirmed
+  //GET Order by Status
   router.get("/order?", authenticated, controllerOrder.getOrderByStatus);
 
   //Task 10

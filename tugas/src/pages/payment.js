@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import HomeHeaderLogin from "../component/Home-header-login";
+import HomeHeader from "../component/Home-header";
 import Footer from "../component/footer";
 import { connect } from "react-redux";
 import axios from "axios";
@@ -40,35 +40,54 @@ class Payment extends Component {
     const { profile } = this.props.profile;
     return (
       <div>
-        <HomeHeaderLogin profile={profile.image} />
-        <div className="content">
+        <HomeHeader profile={profile.image} name={profile.name} />
+        <div className="content-payment">
           <h1 id="payment-title">Payment</h1>
           <div id="payment-container">
             {this.state.event.map((entry, index) => {
               return (
                 <div key={index} className="payment-item">
                   <div className="payment-order">
-                    <div className="payment-order-name"></div>
-                    <h1>{entry.event ? entry.event.title : ""}</h1>
-                    <p style={{ marginLeft: "10px" }}>
-                      Buyer id : {entry.buyer_id}
+                    <div className="payment-order-name">
+                      <h2 id="payment-order-name-name">
+                        {entry.buyer ? entry.buyer.name : ""}
+                      </h2>
+                      <p id="payment-order-total-price">
+                        Face Value Rp. {entry.event ? entry.event.price : ""}
+                      </p>
+                    </div>
+                    <h1 id="payment-order-event-title">
+                      {entry.event ? entry.event.title : ""}
+                    </h1>
+                    <p id="payment-order-start-time">
+                      Date{" "}
+                      {entry.event ? entry.event.startTime.slice(0, 10) : ""} At{" "}
+                      {entry.event ? entry.event.startTime.slice(11, 16) : ""}
                     </p>
-                    <p style={{ marginLeft: "10px" }}>
-                      Quantity : {entry.quantity}
+                    <p id="payment-order-event-address">
+                      Address : {entry.event ? entry.event.address : ""}
                     </p>
-                    <Button
-                      style={{
-                        background: "magenta",
-                        position: "relative",
-                        left: "600px"
-                      }}
-                      onClick={() => this.Confirmed(entry.id)}
-                    >
-                      {entry.status}
-                    </Button>
                   </div>
-
-                  <hr style={{ width: "80%", margin: "auto" }}></hr>
+                  <div id="shopping-summary">
+                    <h2>Shopping Summary</h2>
+                    <div id="total-price">
+                      <p>Total Price ({entry.quantity} Item)</p>
+                      <p>Rp.{entry.totalPrice}</p>
+                    </div>
+                    <hr></hr>
+                    <div id="confirm">
+                      <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQw6cxYSIfxYoAmptLanTLW7QBNSkjYyFaJd16b7TgQC5DfO_Pg"
+                        id="struc-image"
+                      ></img>
+                      <Button
+                        id="button-confirmed"
+                        onClick={() => this.Confirmed(entry.id)}
+                      >
+                        CONFIRM
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               );
             })}

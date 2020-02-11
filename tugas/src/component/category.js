@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import "./Component.css";
+import { Link } from "react-router-dom";
+import axios from "axios";
+//import Redux
 import { connect } from "react-redux";
 import { getCategories } from "../_actions/categories";
 import { getEvents, getEventToday, getEventUpcoming } from "../_actions/events";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { getFavorites } from "../_actions/profile";
 //material-ui event
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
@@ -22,19 +24,35 @@ class Category extends Component {
     super();
     this.state = {
       title: "",
-      result: []
+      result: [],
+      isEmptyState: true,
+      favorites: []
     };
     console.log(this.state.result);
   }
 
+  triggerAddTripState = () => {
+    this.setState({
+      ...this.state,
+      isEmptyState: false,
+      isAddTripState: true
+    });
+  };
+
+  triggerAddTripState2 = () => {
+    this.setState({
+      ...this.state,
+      isEmptyState: true,
+      isAddTripState: false
+    });
+  };
+
   Favorite = event_id => user_id => {
-    // return alert(event_id + " & " + user_id);
     const data = {
       user_id: user_id,
       event_id: event_id
     };
     favorite(data).then(data => alert(data.data.message));
-    // alert(res);
   };
 
   onChange = e => {
@@ -52,21 +70,43 @@ class Category extends Component {
       });
   };
 
+  stateFavorite = data => {
+    this.setState({ favorites: data });
+  };
+
+  // findfavorites = () => {
+  //   return this.state.favorites >= 18;
+  // };
+
+  // getfavorites = () => {
+  //   this.state.favorites.find(this.findfavorites);
+  // };
+
   componentDidMount() {
     this.props.getCategories(); //Fire ACT Pending
     this.props.getEvents();
     this.props.getEventToday();
     this.props.getEventUpcoming();
+    this.props.getFavorites();
+    // console.log(this.getfavorites);
+    // console.log(favorites.slice(0, 1).map(item => item.user_id));
   }
 
   render() {
+    const token = localStorage.getItem("token");
     const { data, isLoading, error } = this.props.categories;
     const { profile } = this.props.profile;
     const { events } = this.props.events;
     const { today } = this.props.today;
     const { upcoming } = this.props.upcoming;
-    console.log(upcoming);
-    console.log(today);
+    const { favorites } = this.props.favorites;
+    // const favorite = this.stateFavorite(favorites.map(item => item.event_id));
+
+    // console.log(
+    //   // favorites.map(item => item.event_id)
+
+    //   favorite.find(favorite >= 2)
+    // );
 
     if (error) {
       return (
@@ -79,7 +119,7 @@ class Category extends Component {
     if (isLoading) {
       return (
         <div>
-          <h1>Loading....</h1>
+          <h1 className="is-loading">Loading....</h1>
         </div>
       );
     }
@@ -194,14 +234,17 @@ class Category extends Component {
                           ></CardMedia>
                           <h3>{entry.title}</h3>
                         </Link>
-                        <FavoriteIcon
-                          style={{
-                            float: "right",
-                            position: "relative",
-                            bottom: "40px"
-                          }}
-                          onClick={() => this.Favorite(entry.id)(profile.id)}
-                        />
+                        {token != null && (
+                          <FavoriteIcon
+                            style={{
+                              float: "right",
+                              position: "relative",
+                              bottom: "40px"
+                            }}
+                            // onClick={this.triggerAddTripState}
+                            onClick={() => this.Favorite(entry.id)(profile.id)}
+                          />
+                        )}
                         {/* <FavoriteBorderIcon /> */}
                         <p>{entry.description.slice(0, 100) + "..."}</p>
                       </CardContent>
@@ -288,7 +331,7 @@ class Category extends Component {
             </Grid>
           </Grid>
 
-          {/* <Grid
+          <Grid
             container
             style={{ flexGrow: "1", marginBottom: "100px" }}
             className="today-events"
@@ -310,7 +353,7 @@ class Category extends Component {
                       <CardContent
                         style={{
                           height: "400px",
-                          width: "300px",
+                          width: "370px",
                           backgroundColor: "#fff",
                           boxShadow: "2px 1px 4px grey"
                         }}
@@ -331,15 +374,39 @@ class Category extends Component {
                           ></CardMedia>
                           <h3>{entry.title}</h3>
                         </Link>
-                        <FavoriteIcon
-                          style={{
-                            float: "right",
-                            position: "relative",
-                            bottom: "40px"
-                          }}
-                          onClick={() => this.Favorite(entry.id)(profile.id)}
-                        />
-                        <FavoriteBorderIcon />
+                        {/* {// favorites
+                        //   .map(item => item.event_id)
+                        //   .find(
+                        //     favorites.map(item => item.event_id) == entry.id
+                        //   )
+                        this.state.isEmptyState && ( */}
+                        {token != null && (
+                          <FavoriteIcon
+                            style={{
+                              float: "right",
+                              position: "relative",
+                              bottom: "40px"
+                            }}
+                            // onClick={this.triggerAddTripState}
+                            onClick={() => this.Favorite(entry.id)(profile.id)}
+                          />
+                        )}
+
+                        {/* )} */}
+                        {/* {!this.state.isEmptyState && (
+                          // favorites
+                          //   .map(item => item.event_id)
+                          //   .find(favorites.map(item => item.event_id)) ==
+                          //   entry.id
+                          <FavoriteBorderIcon
+                            style={{
+                              float: "right",
+                              position: "relative",
+                              bottom: "40px"
+                            }}
+                            onClick={this.triggerAddTripState2}
+                          />
+                        )} */}
                         <p>{entry.description.slice(0, 100) + "..."}</p>
                       </CardContent>
                     </Grid>
@@ -347,7 +414,7 @@ class Category extends Component {
                 })}
               </Grid>
             </Grid>
-          </Grid> */}
+          </Grid>
 
           {/* Today */}
           <Grid
@@ -393,14 +460,17 @@ class Category extends Component {
                           ></CardMedia>
                           <h3>{entry.title}</h3>
                         </Link>
-                        <FavoriteIcon
-                          style={{
-                            float: "right",
-                            position: "relative",
-                            bottom: "40px"
-                          }}
-                          onClick={() => this.Favorite(entry.id)(profile.id)}
-                        />
+                        {token != null && (
+                          <FavoriteIcon
+                            style={{
+                              float: "right",
+                              position: "relative",
+                              bottom: "40px"
+                            }}
+                            // onClick={this.triggerAddTripState}
+                            onClick={() => this.Favorite(entry.id)(profile.id)}
+                          />
+                        )}
                         {/* <FavoriteBorderIcon /> */}
                         <p>{entry.description.slice(0, 100) + "..."}</p>
                       </CardContent>
@@ -453,14 +523,17 @@ class Category extends Component {
                           ></CardMedia>
                           <h3>{entry.title}</h3>
                         </Link>
-                        <FavoriteIcon
-                          style={{
-                            float: "right",
-                            position: "relative",
-                            bottom: "40px"
-                          }}
-                          onClick={() => this.Favorite(entry.id)(profile.id)}
-                        />
+                        {token != null && (
+                          <FavoriteIcon
+                            style={{
+                              float: "right",
+                              position: "relative",
+                              bottom: "40px"
+                            }}
+                            // onClick={this.triggerAddTripState}
+                            onClick={() => this.Favorite(entry.id)(profile.id)}
+                          />
+                        )}
                         {/* <FavoriteBorderIcon /> */}
                         <p>{entry.description.slice(0, 100) + "..."}</p>
                       </CardContent>
@@ -483,7 +556,8 @@ const mapStateToProps = state => {
     events: state.events,
     profile: state.profile,
     today: state.today,
-    upcoming: state.upcoming
+    upcoming: state.upcoming,
+    favorites: state.favorites
   };
 };
 
@@ -500,6 +574,9 @@ const mapDispatchToProps = dispatch => {
     },
     getEvents: () => {
       dispatch(getEvents());
+    },
+    getFavorites: () => {
+      dispatch(getFavorites());
     }
   };
 };

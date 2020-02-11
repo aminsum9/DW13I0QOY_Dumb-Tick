@@ -14,7 +14,6 @@ export const profile = (state = initialState, action) => {
         isLoading: true
       };
     case `${GET_PROFILE}_FULFILLED`:
-      console.log(action.payload);
       return {
         ...state,
         profile: action.payload.data,
